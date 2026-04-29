@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anna-Lotte — GIS Developer & Creative</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=Caveat:wght@500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --mint:     #c8f0d8;
+      --rose:     #fcd5d5;
+      --lav:      #ddd4f5;
+      --peach:    #fde8cc;
+      --sky:      #c6e8f7;
+      --butter:   #faf3c0;
+      --sage:     #d4e9d4;
+      --blush:    #f9e1ea;
+      --ink:      #2a2340;
+      --ink2:     #453b6e;
+      --muted:    #8c85a8;
+      --white:    #fffffe;
+      --offwhite: #faf9ff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--offwhite);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ---------- NAV ---------- */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 3rem;
+      background: rgba(250,249,255,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,195,220,0.25);
+    }
+
+    .nav-logo {
+      font-family: 'Caveat', cursive;
+      font-size: 1.6rem;
+      color: var(--ink2);
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ---------- HERO ---------- */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      padding-top: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(circle at 80% 20%, #fde8cc88 0%, transparent 40%),
+        radial-gradient(circle at 10% 70%, #ddd4f588 0%, transparent 40%),
+        radial-gradient(circle at 60% 90%, #c8f0d888 0%, transparent 35%);
+    }
+
+    .hero-left {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 5rem 3.5rem 5rem 3rem;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Caveat', cursive;
+      font-size: 1.3rem;
+      color: var(--ink2);
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.2s forwards;
+    }
+
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.2rem, 5vw, 5rem);
+      line-height: 1.1;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.4s forwards;
+    }
+
+    .hero-name em {
+      font-style: italic;
+      color: var(--ink2);
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--muted);
+      max-width: 440px;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.6s forwards;
+    }
+
+    .hero-tags {
+      display: flex; flex-wrap: wrap; gap: 0.65rem;
+      margin-bottom: 2.8rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.8s forwards;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.35rem 1rem;
+      border-radius: 99px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .tag-mint   { background: var(--mint);   color: #2a6646; }
+    .tag-rose   { background: var(--rose);   color: #8a3030; }
+    .tag-lav    { background: var(--lav);    color: var(--ink2); }
+    .tag-peach  { background: var(--peach);  color: #8a5520; }
+    .tag-sky    { background: var(--sky);    color: #1a5c80; }
+    .tag-butter { background: var(--butter); color: #7a6800; }
+    .tag-sage   { background: var(--sage);   color: #2a5c2a; }
+    .tag-blush  { background: var(--blush);  color: #8a3055; }
+
+    .hero-cta {
+      display: flex; gap: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 1s forwards;
+    }
+
+    .btn {
+      padding: 0.75rem 1.8rem;
+      border-radius: 99px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--white);
+    }
+    .btn-primary:hover { background: var(--ink2); transform: translateY(-2px); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink);
+      border-color: rgba(42,35,64,0.3);
+    }
+    .btn-ghost:hover { border-color: var(--ink); transform: translateY(-2px); }
+
+    /* Hero right — illustration area */
+    .hero-right {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; justify-content: center;
+      padding: 5rem 3rem;
+      opacity: 0;
+      animation: fadeIn 1s 0.5s forwards;
+    }
+
+    .blob-container {
+      position: relative;
+      width: 420px; height: 480px;
+    }
+
+    .blob-bg {
+      position: absolute; inset: 0;
+      border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+      background: linear-gradient(135deg, var(--lav) 0%, var(--mint) 50%, var(--sky) 100%);
+      animation: morph 8s ease-in-out infinite;
+    }
+
+    @keyframes morph {
+      0%,100% { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; }
+      33%  { border-radius: 40% 60% 35% 65% / 60% 40% 55% 45%; }
+      66%  { border-radius: 55% 45% 60% 40% / 40% 55% 50% 60%; }
+    }
+
+    .float-card {
+      position: absolute;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 6px 28px rgba(80,70,120,0.13);
+      padding: 0.75rem 1.1rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--ink);
+      display: flex; align-items: center; gap: 0.5rem;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .float-card:nth-child(2) { top: 8%; left: -5%;  animation-delay: 0s;    animation-duration: 4.5s; }
+    .float-card:nth-child(3) { top: 18%; right: -8%; animation-delay: 0.5s;  animation-duration: 3.8s; }
+    .float-card:nth-child(4) { bottom: 22%; left: -8%; animation-delay: 1s;  animation-duration: 4.2s; }
+    .float-card:nth-child(5) { bottom: 10%; right: -4%; animation-delay: 1.5s; animation-duration: 5s; }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .card-dot {
+      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+    }
+
+    .hero-center-text {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center; z-index: 2;
+    }
+
+    .hero-avatar {
+      width: 130px; height: 130px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--peach), var(--lav));
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--ink2);
+      border: 4px solid white;
+      box-shadow: 0 8px 30px rgba(80,70,120,0.2);
+    }
+
+    /* ---------- SECTIONS ---------- */
+    section { padding: 6rem 3rem; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      font-family: 'Caveat', cursive;
+      font-size: 1.1rem;
+      color: var(--ink2);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      line-height: 1.2;
+      margin-bottom: 3rem;
+      color: var(--ink);
+    }
+
+    /* ---------- ABOUT ---------- */
+    #about { background: white; }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-text p {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: #555068;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-hobbies {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .hobby-card {
+      background: var(--offwhite);
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+    .hobby-card:hover { transform: translateY(-4px); }
+
+    .hobby-icon {
+      font-size: 2rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .hobby-name {
+      font-weight: 500;
+      font-size: 0.92rem;
+      color: var(--ink);
+    }
+
+    .hobby-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    /* ---------- SKILLS ---------- */
+    #skills { background: var(--offwhite); }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .skill-pill-group h3 {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .pill-row {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+    }
+
+    .skill-pill {
+      padding: 0.3rem 0.85rem;
+      border-radius: 99px;
+      font-size: 0.82rem;
+      font-weight: 500;
+    }
+
+    /* ---------- PROJECTS ---------- */
+    #work-projects { background: white; }
+    #personal-projects { background: var(--offwhite); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .project-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      border: 1.5px solid rgba(200,195,230,0.35);
+      transition: transform 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .card-mint::before   { background: var(--mint); }
+    .card-rose::before   { background: var(--rose); }
+    .card-lav::before    { background: var(--lav); }
+    .card-peach::before  { background: var(--peach); }
+    .card-sky::before    { background: var(--sky); }
+    .card-blush::before  { background: var(--blush); }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 36px rgba(80,70,120,0.12);
+    }
+
+    .project-emoji {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .project-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+    }
+
+    .project-desc {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: #666080;
+      margin-bottom: 1.2rem;
+    }
+
+    .project-tags {
+      display: flex; flex-wrap: wrap; gap: 0.4rem;
+    }
+
+    .project-tag {
+      padding: 0.2rem 0.7rem;
+      border-radius: 99px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      background: var(--offwhite);
+      color: var(--muted);
+      border: 1px solid rgba(200,195,230,0.5);
+    }
+
+    /* ---------- BLOG ---------- */
+    #blog { background: white; }
+
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .blog-card {
+      border-radius: 20px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s;
+      cursor: pointer;
+    }
+    .blog-card:hover { transform: translateY(-4px); }
+
+    .blog-card-bg {
+      position: absolute; inset: 0; opacity: 0.35;
+      border-radius: 20px;
+    }
+
+    .blog-content { position: relative; z-index: 1; }
+
+    .blog-category {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink2);
+      margin-bottom: 0.8rem;
+    }
+
+    .blog-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.4;
+      margin-bottom: 0.7rem;
+    }
+
+    .blog-excerpt {
+      font-size: 0.87rem;
+      line-height: 1.7;
+      color: #666080;
+      margin-bottom: 1.2rem;
+    }
+
+    .blog-meta {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .blog-meta span { display: flex; align-items: center; }
+
+    /* ---------- TRAVEL STRIP ---------- */
+    .travel-strip {
+      background: var(--ink);
+      padding: 3rem;
+      overflow: hidden;
+    }
+
+    .travel-inner { max-width: 1100px; margin: 0 auto; }
+
+    .travel-title {
+      font-family: 'Caveat', cursive;
+      font-size: 1.4rem;
+      color: var(--lav);
+      margin-bottom: 1.5rem;
+    }
+
+    .travel-pins {
+      display: flex; flex-wrap: wrap; gap: 1rem;
+    }
+
+    .travel-pin {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: rgba(255,255,255,0.07);
+      border-radius: 99px;
+      padding: 0.45rem 1.1rem;
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.85);
+    }
+
+    /* ---------- CONTACT ---------- */
+    #contact { background: var(--offwhite); }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .contact-left h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+
+    .contact-left p {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--muted);
+      max-width: 400px;
+      margin-bottom: 2rem;
+    }
+
+    .social-links {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+    }
+
+    .social-link {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.6rem 1.3rem;
+      border-radius: 99px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      border: 1.5px solid rgba(80,70,120,0.2);
+      color: var(--ink2);
+      transition: all 0.2s;
+      background: white;
+    }
+    .social-link:hover {
+      background: var(--lav);
+      border-color: var(--lav);
+      transform: translateY(-2px);
+    }
+
+    .contact-form {
+      background: white;
+      border-radius: 24px;
+      padding: 2.5rem;
+      border: 1.5px solid rgba(200,195,230,0.3);
+    }
+
+    .form-group { margin-bottom: 1.3rem; }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.03em;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid rgba(200,195,230,0.5);
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+      color: var(--ink);
+      background: var(--offwhite);
+      outline: none;
+      transition: border-color 0.2s;
+      resize: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--ink2);
+    }
+
+    .form-submit {
+      width: 100%;
+      padding: 0.85rem;
+      border-radius: 12px;
+      background: var(--ink);
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .form-submit:hover { background: var(--ink2); transform: translateY(-1px); }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      padding: 2rem 3rem;
+      font-size: 0.85rem;
+    }
+
+    footer span { color: rgba(255,255,255,0.8); }
+
+    /* ---------- ANIMATIONS ---------- */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      section { padding: 4rem 1.5rem; }
+    }
+
+    @media (max-width: 540px) {
+      .skills-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      .hero-left { padding: 3rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Anna-Lotte ✦</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#work-projects">Work</a></li>
+      <li><a href="#personal-projects">Projects</a></li>
+      <li><a href="#blog">Writing</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-left">
+      <p class="hero-eyebrow">✦ Hello there, I'm</p>
+      <h1 class="hero-name">Anna-<em>Lotte</em></h1>
+      <p class="hero-desc">
+        GIS Developer by day, builder of apps & games by passion.
+        I turn maps into meaning, code ideas into reality,
+        and worlds into stories — one commit at a time.
+      </p>
+      <div class="hero-tags">
+        <span class="tag tag-mint">🗺️ GIS & Spatial</span>
+        <span class="tag tag-lav">💻 App Dev</span>
+        <span class="tag tag-peach">🎮 Game Maker</span>
+        <span class="tag tag-rose">✍️ Fiction Writer</span>
+        <span class="tag tag-sky">✈️ Traveller</span>
+        <span class="tag tag-butter">🛠️ Tool Builder</span>
+      </div>
+      <div class="hero-cta">
+        <a href="#work-projects" class="btn btn-primary">See my work</a>
+        <a href="#contact" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="blob-container">
+        <div class="blob-bg"></div>
+
+        <div class="float-card">
+          <div class="card-dot" style="background:#c8f0d8;"></div>GIS Developer
+        </div>
+        <div class="float-card">
+          <div class="card-dot" style="background:#ddd4f5;"></div>🎮 Game Dev
+        </div>
+        <div class="float-card">
+          <div class="card-dot" style="background:#fde8cc;"></div>✍️ Writer
+        </div>
+        <div class="float-card">
+          <div class="card-dot" style="background:#c6e8f7;"></div>✈️ 18 countries
+        </div>
+
+        <div class="hero-center-text">
+          <div class="hero-avatar">AL</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-inner">
+      <div class="about-grid reveal">
+        <div class="about-text">
+          <p class="section-label">Who am I?</p>
+          <h2 class="section-title">Developer, creator,<br><em style="font-family:'Playfair Display',serif;font-style:italic;">adventurer.</em></h2>
+          <p>
+            I'm Anna-Lotte, a GIS Developer with a deep love for anything that lives at the intersection of code and creativity. My professional work revolves around spatial data, maps, and geographic systems — but what really gets me excited is building things: apps, tools, games, experiments.
+          </p>
+          <p>
+            When I'm not mapping the world, I'm writing it. Fiction is my other language — crafting characters and worlds that feel as real as coordinates on a map. And every now and then, I close the laptop and go explore one of those places I've been building in my head.
+          </p>
+          <div style="margin-top:1.5rem;">
+            <a href="#contact" class="btn btn-primary">Let's talk</a>
+          </div>
+        </div>
+
+        <div class="about-hobbies">
+          <div class="hobby-card" style="background:#faf5ff;">
+            <div class="hobby-icon">🗺️</div>
+            <div class="hobby-name">GIS & Maps</div>
+            <div class="hobby-desc">Turning spatial data into insight</div>
+          </div>
+          <div class="hobby-card" style="background:#f0fdf4;">
+            <div class="hobby-icon">🎮</div>
+            <div class="hobby-name">Game Dev</div>
+            <div class="hobby-desc">Designing interactive worlds</div>
+          </div>
+          <div class="hobby-card" style="background:#fff7ed;">
+            <div class="hobby-icon">✍️</div>
+            <div class="hobby-name">Fiction Writing</div>
+            <div class="hobby-desc">Stories with soul & detail</div>
+          </div>
+          <div class="hobby-card" style="background:#f0f9ff;">
+            <div class="hobby-icon">✈️</div>
+            <div class="hobby-name">Travel</div>
+            <div class="hobby-desc">Collecting places & perspectives</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" style="background:var(--offwhite);padding:4rem 3rem;">
+    <div class="section-inner reveal">
+      <p class="section-label">What I work with</p>
+      <h2 class="section-title" style="margin-bottom:2.5rem;">My toolkit</h2>
+      <div class="skills-grid">
+        <div class="skill-pill-group">
+          <h3>GIS & Spatial</h3>
+          <div class="pill-row">
+            <span class="skill-pill tag-mint">ArcGIS</span>
+            <span class="skill-pill tag-mint">QGIS</span>
+            <span class="skill-pill tag-mint">PostGIS</span>
+            <span class="skill-pill tag-mint">Mapbox</span>
+            <span class="skill-pill tag-mint">Leaflet</span>
+            <span class="skill-pill tag-mint">OpenLayers</span>
+          </div>
+        </div>
+        <div class="skill-pill-group">
+          <h3>Development</h3>
+          <div class="pill-row">
+            <span class="skill-pill tag-lav">Python</span>
+            <span class="skill-pill tag-lav">JavaScript</span>
+            <span class="skill-pill tag-lav">TypeScript</span>
+            <span class="skill-pill tag-lav">React</span>
+            <span class="skill-pill tag-lav">SQL</span>
+            <span class="skill-pill tag-lav">Node.js</span>
+          </div>
+        </div>
+        <div class="skill-pill-group">
+          <h3>Tools & Platforms</h3>
+          <div class="pill-row">
+            <span class="skill-pill tag-peach">AWS</span>
+            <span class="skill-pill tag-peach">Git</span>
+            <span class="skill-pill tag-peach">Docker</span>
+            <span class="skill-pill tag-peach">Figma</span>
+            <span class="skill-pill tag-peach">Unity</span>
+            <span class="skill-pill tag-peach">PostgreSQL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK PROJECTS -->
+  <section id="work-projects">
+    <div class="section-inner reveal">
+      <p class="section-label">Professional work</p>
+      <h2 class="section-title">What I build at work</h2>
+      <div class="projects-grid">
+
+        <div class="project-card card-mint">
+          <span class="project-emoji">🗺️</span>
+          <h3 class="project-title">Spatial Data Dashboard</h3>
+          <p class="project-desc">An interactive web dashboard for visualizing and querying large-scale geographic datasets. Supports real-time filtering, layer management, and custom map exports.</p>
+          <div class="project-tags">
+            <span class="project-tag">React</span>
+            <span class="project-tag">Mapbox GL</span>
+            <span class="project-tag">PostGIS</span>
+            <span class="project-tag">Python</span>
+          </div>
+        </div>
+
+        <div class="project-card card-lav">
+          <span class="project-emoji">📡</span>
+          <h3 class="project-title">Geodata Pipeline</h3>
+          <p class="project-desc">Automated ETL pipeline for ingesting, transforming, and serving spatial data from multiple sources. Reduced processing time by 70% through smart caching and parallel processing.</p>
+          <div class="project-tags">
+            <span class="project-tag">Python</span>
+            <span class="project-tag">AWS Lambda</span>
+            <span class="project-tag">PostGIS</span>
+            <span class="project-tag">Docker</span>
+          </div>
+        </div>
+
+        <div class="project-card card-sky">
+          <span class="project-emoji">📍</span>
+          <h3 class="project-title">Field Data Collector</h3>
+          <p class="project-desc">Mobile-first PWA for field teams to collect, annotate, and sync geographic data offline. Custom form builder with GPS snapping and photo attachment support.</p>
+          <div class="project-tags">
+            <span class="project-tag">TypeScript</span>
+            <span class="project-tag">Leaflet</span>
+            <span class="project-tag">PWA</span>
+            <span class="project-tag">IndexedDB</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PERSONAL PROJECTS -->
+  <section id="personal-projects">
+    <div class="section-inner reveal">
+      <p class="section-label">Side quests</p>
+      <h2 class="section-title">Things I make for fun</h2>
+      <div class="projects-grid">
+
+        <div class="project-card card-peach">
+          <span class="project-emoji">🎮</span>
+          <h3 class="project-title">Cartomancer</h3>
+          <p class="project-desc">A puzzle game where maps are magic. Players decode spatial clues to uncover a hidden story woven across a procedurally generated world.</p>
+          <div class="project-tags">
+            <span class="project-tag">Unity</span>
+            <span class="project-tag">C#</span>
+            <span class="project-tag">Procgen</span>
+          </div>
+        </div>
+
+        <div class="project-card card-rose">
+          <span class="project-emoji">🛠️</span>
+          <h3 class="project-title">MapNotes</h3>
+          <p class="project-desc">A personal tool for pinning travel memories, stories, and photos to an interactive world map. Built for my own travel journaling habit.</p>
+          <div class="project-tags">
+            <span class="project-tag">React</span>
+            <span class="project-tag">Mapbox</span>
+            <span class="project-tag">Supabase</span>
+          </div>
+        </div>
+
+        <div class="project-card card-blush">
+          <span class="project-emoji">📖</span>
+          <h3 class="project-title">Story Generator CLI</h3>
+          <p class="project-desc">A command-line tool that helps beat writer's block with randomised prompts, character seeds, and setting ideas — with a GIS twist.</p>
+          <div class="project-tags">
+            <span class="project-tag">Python</span>
+            <span class="project-tag">CLI</span>
+            <span class="project-tag">Open source</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TRAVEL STRIP -->
+  <div class="travel-strip">
+    <div class="travel-inner">
+      <p class="travel-title">✈️ Places I've been</p>
+      <div class="travel-pins">
+        <span class="travel-pin">🇯🇵 Japan</span>
+        <span class="travel-pin">🇮🇸 Iceland</span>
+        <span class="travel-pin">🇵🇹 Portugal</span>
+        <span class="travel-pin">🇲🇦 Morocco</span>
+        <span class="travel-pin">🇨🇷 Costa Rica</span>
+        <span class="travel-pin">🇹🇷 Turkey</span>
+        <span class="travel-pin">🇳🇴 Norway</span>
+        <span class="travel-pin">🇬🇷 Greece</span>
+        <span class="travel-pin">🇨🇿 Czech Republic</span>
+        <span class="travel-pin">🇳🇿 New Zealand</span>
+        <span class="travel-pin">🇦🇹 Austria</span>
+        <span class="travel-pin">🇭🇺 Hungary</span>
+        <span class="travel-pin">🇵🇱 Poland</span>
+        <span class="travel-pin">🇪🇸 Spain</span>
+        <span class="travel-pin">🇮🇹 Italy</span>
+        <span class="travel-pin">🇧🇪 Belgium</span>
+        <span class="travel-pin">🇩🇰 Denmark</span>
+        <span class="travel-pin">🇸🇰 Slovakia</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOG / WRITING -->
+  <section id="blog">
+    <div class="section-inner reveal">
+      <p class="section-label">Thoughts & stories</p>
+      <h2 class="section-title">Writing</h2>
+      <div class="blog-grid">
+
+        <div class="blog-card">
+          <div class="blog-card-bg" style="background: var(--lav);"></div>
+          <div class="blog-content">
+            <p class="blog-category">✍️ Fiction</p>
+            <h3 class="blog-title">The cartographer who mapped impossible places</h3>
+            <p class="blog-excerpt">A short story about a woman who discovers her maps are more accurate than reality — and what happens when they diverge.</p>
+            <div class="blog-meta">
+              <span>5 min read</span>&nbsp;·&nbsp;<span>Short story</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="blog-card">
+          <div class="blog-card-bg" style="background: var(--mint);"></div>
+          <div class="blog-content">
+            <p class="blog-category">🗺️ Dev & GIS</p>
+            <h3 class="blog-title">Why every developer should think spatially</h3>
+            <p class="blog-excerpt">Spatial thinking isn't just for GIS pros. Here's how geographic reasoning can make you a better software developer.</p>
+            <div class="blog-meta">
+              <span>7 min read</span>&nbsp;·&nbsp;<span>Tech essay</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="blog-card">
+          <div class="blog-card-bg" style="background: var(--peach);"></div>
+          <div class="blog-content">
+            <p class="blog-category">✈️ Travel</p>
+            <h3 class="blog-title">Getting genuinely lost in Fez, Morocco</h3>
+            <p class="blog-excerpt">The medina's labyrinth has no GPS solution. And sometimes, being lost is exactly where you need to be.</p>
+            <div class="blog-meta">
+              <span>4 min read</span>&nbsp;·&nbsp;<span>Travel writing</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner">
+      <div class="contact-grid reveal">
+        <div class="contact-left">
+          <p class="section-label">Say hello</p>
+          <h2 style="font-family:'Playfair Display',serif;font-size:2.5rem;margin-bottom:1rem;line-height:1.2;">
+            Let's make<br><em style="font-style:italic;color:var(--ink2);">something cool.</em>
+          </h2>
+          <p>
+            Whether you want to collaborate on a project, talk GIS nerd stuff, discuss a story idea, or just say hi — I'd love to hear from you.
+          </p>
+          <div class="social-links">
+            <a href="#" class="social-link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              GitHub
+            </a>
+            <a href="#" class="social-link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+              LinkedIn
+            </a>
+            <a href="#" class="social-link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Email
+            </a>
+          </div>
+        </div>
+
+        <div class="contact-form">
+          <div class="form-group">
+            <label>Your name</label>
+            <input type="text" placeholder="Jane Smith" />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="hello@example.com" />
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea rows="5" placeholder="Tell me what's on your mind..."></textarea>
+          </div>
+          <button class="form-submit">Send message ✦</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Crafted with 💜 by <span>Anna-Lotte</span> · Built on AWS · <span>2025</span></p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    reveals.forEach(r => observer.observe(r));
+  </script>
+</body>
+</html>
