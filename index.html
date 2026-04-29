@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Anna-Lotte — GIS Developer & Creative</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=Caveat:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -46,7 +46,7 @@
     }
 
     .nav-logo {
-      font-family: 'Caveat', cursive;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.6rem;
       color: var(--ink2);
       text-decoration: none;
@@ -90,7 +90,7 @@
     }
 
     .hero-eyebrow {
-      font-family: 'Caveat', cursive;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.3rem;
       color: var(--ink2);
       margin-bottom: 1rem;
@@ -189,77 +189,67 @@
       animation: fadeIn 1s 0.5s forwards;
     }
 
-    .blob-container {
+    .globe-scene {
       position: relative;
-      width: 420px; height: 480px;
+      width: 460px; height: 500px;
     }
 
-    .blob-bg {
-      position: absolute; inset: 0;
-      border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
-      background: linear-gradient(135deg, var(--lav) 0%, var(--mint) 50%, var(--sky) 100%);
-      animation: morph 8s ease-in-out infinite;
+    /* slow rotation on the whole SVG globe */
+    .globe-rotate {
+      animation: globeSpin 30s linear infinite;
+      transform-origin: 50% 50%;
+    }
+    @keyframes globeSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
     }
 
-    @keyframes morph {
-      0%,100% { border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%; }
-      33%  { border-radius: 40% 60% 35% 65% / 60% 40% 55% 45%; }
-      66%  { border-radius: 55% 45% 60% 40% / 40% 55% 50% 60%; }
+    /* polaroids float gently */
+    @keyframes floatA {
+      0%,100% { transform: rotate(-6deg) translateY(0px); }
+      50%      { transform: rotate(-6deg) translateY(-9px); }
+    }
+    @keyframes floatB {
+      0%,100% { transform: rotate(5deg) translateY(0px); }
+      50%      { transform: rotate(5deg) translateY(-7px); }
+    }
+    @keyframes floatC {
+      0%,100% { transform: rotate(-3deg) translateY(0px); }
+      50%      { transform: rotate(-3deg) translateY(-11px); }
     }
 
-    .float-card {
+    .polaroid {
       position: absolute;
       background: white;
-      border-radius: 16px;
-      box-shadow: 0 6px 28px rgba(80,70,120,0.13);
-      padding: 0.75rem 1.1rem;
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--ink);
-      display: flex; align-items: center; gap: 0.5rem;
-      animation: float 4s ease-in-out infinite;
+      border-radius: 4px;
+      box-shadow: 0 8px 28px rgba(80,70,120,0.18);
+      padding: 8px 8px 28px 8px;
+      filter: drop-shadow(0 4px 12px rgba(80,70,120,0.12));
+    }
+    .polaroid-img {
+      border-radius: 2px;
+      display: block;
+    }
+    .polaroid-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 11px;
+      font-style: italic;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 6px;
+      line-height: 1;
     }
 
-    .float-card:nth-child(2) { top: 8%; left: -5%;  animation-delay: 0s;    animation-duration: 4.5s; }
-    .float-card:nth-child(3) { top: 18%; right: -8%; animation-delay: 0.5s;  animation-duration: 3.8s; }
-    .float-card:nth-child(4) { bottom: 22%; left: -8%; animation-delay: 1s;  animation-duration: 4.2s; }
-    .float-card:nth-child(5) { bottom: 10%; right: -4%; animation-delay: 1.5s; animation-duration: 5s; }
-
-    @keyframes float {
-      0%,100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-
-    .card-dot {
-      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
-    }
-
-    .hero-center-text {
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center; z-index: 2;
-    }
-
-    .hero-avatar {
-      width: 130px; height: 130px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--peach), var(--lav));
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 1rem;
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--ink2);
-      border: 4px solid white;
-      box-shadow: 0 8px 30px rgba(80,70,120,0.2);
-    }
+    .pol-a { bottom: 18%; left: -8%;  animation: floatA 5s ease-in-out infinite; }
+    .pol-b { top: 5%;    right: -4%;  animation: floatB 4.5s ease-in-out infinite; animation-delay: 0.8s; }
+    .pol-c { bottom: 2%; right: 2%;   animation: floatC 5.5s ease-in-out infinite; animation-delay: 1.5s; }
 
     /* ---------- SECTIONS ---------- */
     section { padding: 6rem 3rem; }
     .section-inner { max-width: 1100px; margin: 0 auto; }
 
     .section-label {
-      font-family: 'Caveat', cursive;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.1rem;
       color: var(--ink2);
       margin-bottom: 0.5rem;
@@ -493,7 +483,7 @@
     .travel-inner { max-width: 1100px; margin: 0 auto; }
 
     .travel-title {
-      font-family: 'Caveat', cursive;
+      font-family: 'Cormorant Garamond', serif;
       font-size: 1.4rem;
       color: var(--lav);
       margin-bottom: 1.5rem;
@@ -702,25 +692,135 @@
     </div>
 
     <div class="hero-right">
-      <div class="blob-container">
-        <div class="blob-bg"></div>
+      <div class="globe-scene">
 
-        <div class="float-card">
-          <div class="card-dot" style="background:#c8f0d8;"></div>GIS Developer
-        </div>
-        <div class="float-card">
-          <div class="card-dot" style="background:#ddd4f5;"></div>🎮 Game Dev
-        </div>
-        <div class="float-card">
-          <div class="card-dot" style="background:#fde8cc;"></div>✍️ Writer
-        </div>
-        <div class="float-card">
-          <div class="card-dot" style="background:#c6e8f7;"></div>✈️ 18 countries
+        <!-- SVG Globe -->
+        <svg width="340" height="340" viewBox="0 0 340 340" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-54%);" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="globe-clip">
+              <circle cx="170" cy="170" r="148"/>
+            </clipPath>
+            <radialGradient id="globe-grad" cx="40%" cy="35%">
+              <stop offset="0%"   stop-color="#e8f4fd"/>
+              <stop offset="60%"  stop-color="#c6e8f7"/>
+              <stop offset="100%" stop-color="#9dd0ed"/>
+            </radialGradient>
+            <radialGradient id="globe-shine" cx="35%" cy="30%">
+              <stop offset="0%"  stop-color="white" stop-opacity="0.55"/>
+              <stop offset="70%" stop-color="white" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+
+          <!-- ocean -->
+          <circle cx="170" cy="170" r="148" fill="url(#globe-grad)"/>
+
+          <!-- landmasses clipped to globe -->
+          <g clip-path="url(#globe-clip)" class="globe-rotate">
+            <!-- Europe -->
+            <path d="M168 90 Q175 85 182 88 L186 95 Q183 100 178 102 L172 105 Q165 103 163 97 Z" fill="#c8f0d8"/>
+            <path d="M155 95 Q162 90 168 90 L163 97 Q160 102 155 100 Z" fill="#c8f0d8"/>
+            <!-- Scandinavia bump -->
+            <path d="M162 78 Q168 72 174 75 L176 83 Q170 86 165 84 Z" fill="#c8f0d8"/>
+            <!-- UK -->
+            <path d="M148 87 Q153 84 157 86 L158 93 Q154 95 150 93 Z" fill="#c8f0d8"/>
+            <!-- Africa -->
+            <path d="M160 112 Q170 108 180 112 L185 130 Q182 155 178 165 Q170 172 162 165 Q156 152 155 132 Z" fill="#c8f0d8"/>
+            <!-- Asia big -->
+            <path d="M186 88 Q210 82 238 88 L248 100 Q255 115 252 130 L240 138 Q220 140 200 135 L186 120 Q183 105 186 88 Z" fill="#c8f0d8"/>
+            <!-- Japan -->
+            <path d="M252 100 Q258 97 263 100 L264 108 Q260 112 255 110 Z" fill="#c8f0d8"/>
+            <!-- Australia -->
+            <path d="M230 160 Q248 155 260 162 L265 175 Q260 188 248 190 Q236 188 228 178 Z" fill="#c8f0d8"/>
+            <!-- Americas -->
+            <path d="M80 90 Q95 84 110 88 L115 105 Q112 125 108 140 Q100 148 90 145 L82 128 Q78 108 80 90 Z" fill="#c8f0d8"/>
+            <path d="M90 148 Q98 144 105 148 L108 165 Q106 185 100 195 Q93 198 88 193 L85 175 Q84 160 90 148 Z" fill="#c8f0d8"/>
+            <!-- South America -->
+            <path d="M100 200 Q112 196 120 202 L122 220 Q118 245 110 258 Q102 260 96 252 Q90 238 92 218 Z" fill="#c8f0d8"/>
+
+            <!-- latitude lines -->
+            <ellipse cx="170" cy="170" rx="148" ry="30"  fill="none" stroke="white" stroke-width="0.6" stroke-opacity="0.4"/>
+            <ellipse cx="170" cy="170" rx="148" ry="75"  fill="none" stroke="white" stroke-width="0.6" stroke-opacity="0.3"/>
+            <ellipse cx="170" cy="170" rx="148" ry="120" fill="none" stroke="white" stroke-width="0.6" stroke-opacity="0.3"/>
+            <!-- longitude lines -->
+            <ellipse cx="170" cy="170" rx="30"  ry="148" fill="none" stroke="white" stroke-width="0.6" stroke-opacity="0.3"/>
+            <ellipse cx="170" cy="170" rx="75"  ry="148" fill="none" stroke="white" stroke-width="0.6" stroke-opacity="0.3"/>
+            <ellipse cx="170" cy="170" rx="120" ry="148" fill="none" stroke="white" stroke-width="0.6" stroke-opacity="0.3"/>
+
+            <!-- travel pins -->
+            <circle cx="170" cy="94"  r="4" fill="#f9a8d4" stroke="white" stroke-width="1.5"/><!-- NL -->
+            <circle cx="258" cy="104" r="4" fill="#f9a8d4" stroke="white" stroke-width="1.5"/><!-- Japan -->
+            <circle cx="143" cy="84"  r="4" fill="#f9a8d4" stroke="white" stroke-width="1.5"/><!-- Iceland -->
+            <circle cx="155" cy="108" r="4" fill="#f9a8d4" stroke="white" stroke-width="1.5"/><!-- Portugal -->
+            <circle cx="164" cy="118" r="4" fill="#f9a8d4" stroke="white" stroke-width="1.5"/><!-- Morocco -->
+            <circle cx="248" cy="164" r="4" fill="#f9a8d4" stroke="white" stroke-width="1.5"/><!-- NZ -->
+            <circle cx="96"  cy="155" r="4" fill="#f9a8d4" stroke="white" stroke-width="1.5"/><!-- Costa Rica -->
+          </g>
+
+          <!-- globe border -->
+          <circle cx="170" cy="170" r="148" fill="none" stroke="#b8d8ee" stroke-width="1.5"/>
+          <!-- shine overlay -->
+          <circle cx="170" cy="170" r="148" fill="url(#globe-shine)"/>
+        </svg>
+
+        <!-- Polaroid A — tilted left, lower left -->
+        <div class="polaroid pol-a" style="width:118px;">
+          <svg class="polaroid-img" width="102" height="80" viewBox="0 0 102 80">
+            <rect width="102" height="80" rx="2" fill="#fde8cc"/>
+            <!-- Torii gate silhouette (Japan) -->
+            <rect x="30" y="48" width="6"  height="22" fill="#c0603a"/>
+            <rect x="66" y="48" width="6"  height="22" fill="#c0603a"/>
+            <rect x="24" y="38" width="54" height="7" rx="2" fill="#c0603a"/>
+            <rect x="28" y="46" width="46" height="5" rx="1" fill="#c0603a"/>
+            <!-- sky -->
+            <rect width="102" height="38" rx="2" fill="#fcd5a8"/>
+            <!-- sun -->
+            <circle cx="78" cy="18" r="9" fill="#f97316" opacity="0.8"/>
+            <!-- ground -->
+            <rect y="68" width="102" height="12" rx="0" fill="#a3d9b0"/>
+          </svg>
+          <div class="polaroid-label">Tokyo ✈</div>
         </div>
 
-        <div class="hero-center-text">
-          <div class="hero-avatar">AL</div>
+        <!-- Polaroid B — tilted right, top right -->
+        <div class="polaroid pol-b" style="width:112px;">
+          <svg class="polaroid-img" width="96" height="76" viewBox="0 0 96 76">
+            <!-- Iceland sky -->
+            <rect width="96" height="76" rx="2" fill="#c6e8f7"/>
+            <!-- aurora bands -->
+            <path d="M0 30 Q24 20 48 28 Q72 36 96 26 L96 38 Q72 48 48 40 Q24 32 0 42 Z" fill="#a8e6cf" opacity="0.7"/>
+            <path d="M0 38 Q24 32 48 40 Q72 48 96 38 L96 46 Q72 54 48 48 Q24 40 0 50 Z" fill="#ddd4f5" opacity="0.6"/>
+            <!-- snow ground -->
+            <rect y="62" width="96" height="14" rx="0" fill="white"/>
+            <!-- mountain -->
+            <polygon points="30,62 52,28 74,62" fill="#e8f0f8"/>
+            <polygon points="38,62 52,38 66,62" fill="white" opacity="0.6"/>
+          </svg>
+          <div class="polaroid-label">Iceland 🌌</div>
         </div>
+
+        <!-- Polaroid C — bottom right, slight tilt -->
+        <div class="polaroid pol-c" style="width:108px;">
+          <svg class="polaroid-img" width="92" height="72" viewBox="0 0 92 72">
+            <!-- Morocco warm sky -->
+            <rect width="92" height="72" rx="2" fill="#fef3c7"/>
+            <!-- sunset gradient suggestion -->
+            <rect y="40" width="92" height="32" fill="#fed7aa" rx="0"/>
+            <!-- arch / doorway -->
+            <path d="M30 72 L30 40 Q46 26 62 40 L62 72 Z" fill="#c2814a"/>
+            <path d="M34 72 L34 42 Q46 30 58 42 L58 72 Z" fill="#fef3c7"/>
+            <!-- mosaic hint -->
+            <rect x="38" y="50" width="6" height="6" fill="#86efac" opacity="0.8"/>
+            <rect x="48" y="50" width="6" height="6" fill="#93c5fd" opacity="0.8"/>
+            <rect x="38" y="60" width="6" height="6" fill="#f9a8d4" opacity="0.8"/>
+            <rect x="48" y="60" width="6" height="6" fill="#fde68a" opacity="0.8"/>
+            <!-- palm -->
+            <rect x="72" y="42" width="3" height="30" fill="#a16207"/>
+            <path d="M74 42 Q60 32 58 24 Q66 28 72 36 Z" fill="#4ade80" opacity="0.9"/>
+            <path d="M74 42 Q88 30 90 22 Q82 28 76 38 Z" fill="#4ade80" opacity="0.9"/>
+          </svg>
+          <div class="polaroid-label">Fez, Morocco 🌿</div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -1026,7 +1126,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <p>Crafted with 💜 by <span>Anna-Lotte</span> · Built on AWS · <span>2025</span></p>
+    <p>Crafted with 💜 by <span>Anna-Lotte</span> · Built on Netlify · <span>2026</span></p>
   </footer>
 
   <script>
