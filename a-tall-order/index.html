@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>A Tall Order — Anna-Lotte</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Nunito:wght@300;400;600;700&family=Petit+Formal+Script&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="../index.html" class="topbar-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    Back to portfolio
+  </a>
+  <span class="topbar-title">A Tall Order</span>
+  <span class="topbar-right">☕ Bookshop Café Sim</span>
+</div>
+
+<div class="game-wrap">
+
+  <!-- ── GAME CANVAS ── -->
+  <div class="canvas-wrap">
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- Start screen -->
+    <div class="overlay" id="startOverlay">
+      <div class="overlay-box">
+        <div class="overlay-title">A Tall Order</div>
+        <div class="overlay-sub">A bookshop café story</div>
+        <p class="overlay-desc">
+          You're Anna — aspiring novelist, part-time café worker.
+          Seat guests, take their orders, serve them, collect tips.
+          Invest your earnings into your writing dream.<br><br>
+          <strong>Click guests to seat · click seated guests to order · click again to serve · collect tips before they leave!</strong>
+        </p>
+        <button class="overlay-btn rose" onclick="startGame()">Start working ☕</button>
+      </div>
+    </div>
+
+    <!-- Day summary -->
+    <div class="overlay" id="dayOverlay" style="display:none">
+      <div class="overlay-box">
+        <div class="day-badge" id="dayBadgeLabel">End of Day 1</div>
+        <div class="overlay-title" id="dayTitle">Shift's over!</div>
+        <div class="overlay-sub" id="dayNovelLine">Novel progress grows...</div>
+        <div class="score-grid">
+          <div class="score-cell"><div class="score-cell-label">Earned</div><div class="score-cell-val" id="dayEarned">$0</div></div>
+          <div class="score-cell"><div class="score-cell-label">Served</div><div class="score-cell-val" id="dayServed">0</div></div>
+          <div class="score-cell"><div class="score-cell-label">Tips</div><div class="score-cell-val" id="dayTips">$0</div></div>
+          <div class="score-cell"><div class="score-cell-label">Novel</div><div class="score-cell-val" id="dayNovel">0%</div></div>
+        </div>
+        <button class="overlay-btn rose" onclick="nextDay()">Next day →</button>
+        <button class="overlay-btn" onclick="showShop()">Visit upgrade shop 🛒</button>
+      </div>
+    </div>
+
+    <!-- Win screen -->
+    <div class="overlay" id="winOverlay" style="display:none">
+      <div class="overlay-box">
+        <div class="overlay-title">📖 Published!</div>
+        <div class="overlay-sub">Anna's novel is out in the world.</div>
+        <p class="overlay-desc">
+          After countless shifts, cold coffees, and late-night writing sessions —
+          Anna's debut novel is finally on the shelves.
+          Right next to the café where it all began.
+        </p>
+        <button class="overlay-btn rose" onclick="resetGame()">Play again ☕</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SIDE PANEL ── -->
+  <div class="side-panel">
+
+    <div class="panel-section">
+      <div class="panel-label">Today's shift</div>
+      <div class="stat-row"><span class="stat-name">☕ Day</span>     <span class="stat-val" id="statDay">1</span></div>
+      <div class="stat-row"><span class="stat-name">⏱ Time left</span><span class="stat-val" id="statTime">2:00</span></div>
+      <div class="stat-row"><span class="stat-name">💰 Cash</span>    <span class="stat-val" id="statCash">$0</span></div>
+      <div class="stat-row"><span class="stat-name">⭐ Served today</span><span class="stat-val" id="statServed">0</span></div>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-label">The Novel</div>
+      <div class="novel-bar-wrap">
+        <div class="novel-bar-label">
+          <span>Progress</span>
+          <span id="novelPct">0%</span>
+        </div>
+        <div class="novel-bar-track">
+          <div class="novel-bar-fill" id="novelBar" style="width:0%"></div>
+        </div>
+        <div class="novel-stage" id="novelStage">Just an idea...</div>
+      </div>
+      <div style="margin-top:1rem;">
+        <button class="invest-btn" id="investBtn" onclick="investInNovel(10)" disabled>
+          ✍ Invest $10 in writing
+        </button>
+        <button class="invest-btn" id="investBtn50" onclick="investInNovel(50)" disabled
+          style="background:linear-gradient(135deg,rgba(201,147,90,0.2),rgba(212,134,154,0.15));border-color:rgba(201,147,90,0.3);">
+          📖 Invest $50 in writing
+        </button>
+      </div>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-label">Upgrades</div>
+      <div id="upgradeList"></div>
+    </div>
+
+    <div class="panel-section">
+      <div class="panel-label">Activity log</div>
+      <ul class="log-list" id="logList"></ul>
+    </div>
+
+  </div>
+</div>
+
+<!--
+  Scripts load in dependency order:
+  constants → state → sprites → draw → game
+  game.js is last because it references everything above it.
+-->
+<script src="js/constants.js"></script>
+<script src="js/state.js"></script>
+<script src="js/sprites.js"></script>
+<script src="js/draw.js"></script>
+<script src="js/game.js"></script>
+
+</body>
+</html>
