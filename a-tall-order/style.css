@@ -1,0 +1,319 @@
+/* ============================================================
+   style.css — A Tall Order
+   All visual styles for the game UI.
+   The actual game graphics are drawn on the canvas in draw.js.
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:        #1e2d45;
+  --navy-deep:   #141e2e;
+  --navy-mid:    #2a3f5e;
+  --rose:        #d4869a;
+  --rose-light:  #f0cdd5;
+  --rose-pale:   #faf0f2;
+  --amber:       #c9935a;
+  --amber-pale:  #fdf3e8;
+  --cream:       #faf6ef;
+  --parchment:   #f0e8d8;
+  --ink:         #1e2d45;
+  --muted:       #7a8fa8;
+  --green:       #5a8a5e;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--navy-deep);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── TOP BAR ────────────────────────────────────────────── */
+
+.topbar {
+  background: var(--navy-deep);
+  padding: 0.7rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  flex-shrink: 0;
+}
+
+.topbar-back {
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.2s;
+}
+.topbar-back:hover { color: var(--rose-light); }
+
+.topbar-title {
+  font-family: 'Petit Formal Script', cursive;
+  font-size: 1.4rem;
+  color: var(--rose-light);
+}
+
+.topbar-right {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.06em;
+}
+
+/* ── LAYOUT ─────────────────────────────────────────────── */
+
+.game-wrap {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.canvas-wrap {
+  flex: 1;
+  position: relative;
+  background: var(--parchment);
+  overflow: hidden;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+/* ── SIDE PANEL ─────────────────────────────────────────── */
+
+.side-panel {
+  width: 260px;
+  flex-shrink: 0;
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid rgba(255, 255, 255, 0.07);
+  overflow-y: auto;
+}
+
+.panel-section {
+  padding: 1.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.panel-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 0.8rem;
+}
+
+/* Stats */
+.stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.stat-name { font-size: 0.82rem; color: rgba(255, 255, 255, 0.6); }
+.stat-val  { font-size: 0.9rem;  color: #fff; font-weight: 600; }
+
+/* Novel progress bar */
+.novel-bar-wrap  { margin-top: 0.4rem; }
+.novel-bar-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.4rem;
+}
+.novel-bar-track {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.novel-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--rose), var(--amber));
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+.novel-stage {
+  font-size: 0.72rem;
+  color: var(--rose-light);
+  margin-top: 0.4rem;
+  font-style: italic;
+  font-family: 'Lora', serif;
+}
+
+/* Upgrade buttons */
+.upgrade-btn {
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+  transition: background 0.2s, border-color 0.2s;
+  text-align: left;
+}
+.upgrade-btn:hover:not(:disabled) {
+  background: rgba(212, 134, 154, 0.15);
+  border-color: var(--rose);
+}
+.upgrade-btn:disabled { opacity: 0.38; cursor: not-allowed; }
+.upgrade-btn.bought {
+  background: rgba(90, 138, 94, 0.2);
+  border-color: rgba(90, 138, 94, 0.4);
+}
+
+.upg-icon { font-size: 1.2rem; flex-shrink: 0; }
+.upg-info { flex: 1; }
+.upg-name { font-size: 0.8rem;  color: #fff; font-weight: 600; }
+.upg-desc { font-size: 0.68rem; color: rgba(255, 255, 255, 0.45); margin-top: 1px; }
+.upg-cost { font-size: 0.75rem; font-weight: 700; color: var(--amber); flex-shrink: 0; }
+.upg-cost.free { color: var(--green); }
+
+/* Novel invest buttons */
+.invest-btn {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  background: linear-gradient(135deg, rgba(212, 134, 154, 0.2), rgba(201, 147, 90, 0.15));
+  border: 1px solid rgba(212, 134, 154, 0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--rose-light);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+  transition: all 0.2s;
+}
+.invest-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, rgba(212, 134, 154, 0.32), rgba(201, 147, 90, 0.25));
+}
+.invest-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* Activity log */
+.log-list { list-style: none; max-height: 120px; overflow-y: auto; }
+.log-list li {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.45);
+  padding: 0.2rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  line-height: 1.4;
+}
+.log-list li.good  { color: rgba(180, 230, 140, 0.8); }
+.log-list li.bad   { color: rgba(230, 140, 140, 0.8); }
+.log-list li.novel { color: rgba(212, 134, 154, 0.9); font-style: italic; }
+
+/* ── OVERLAYS ───────────────────────────────────────────── */
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 30, 46, 0.88);
+  z-index: 50;
+}
+
+.overlay-box {
+  background: var(--cream);
+  border-radius: 12px;
+  padding: 2.5rem 3rem;
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.overlay-title {
+  font-family: 'Lora', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--navy-deep);
+  margin-bottom: 0.5rem;
+}
+
+.overlay-sub {
+  font-family: 'Lora', serif;
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--rose);
+  margin-bottom: 1.2rem;
+}
+
+.overlay-desc {
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: #5a6e80;
+  margin-bottom: 2rem;
+}
+
+.overlay-btn {
+  padding: 0.85rem 2.4rem;
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin: 0.3rem;
+}
+.overlay-btn:hover       { background: var(--navy-mid); }
+.overlay-btn.rose        { background: var(--rose); }
+.overlay-btn.rose:hover  { background: #c0728a; }
+
+.day-badge {
+  display: inline-block;
+  background: var(--rose-pale);
+  color: var(--rose);
+  border: 1px solid rgba(212, 134, 154, 0.3);
+  border-radius: 4px;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-bottom: 1rem;
+}
+
+.score-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin: 1.2rem 0;
+}
+
+.score-cell {
+  background: rgba(30, 45, 69, 0.06);
+  border-radius: 6px;
+  padding: 0.7rem;
+}
+.score-cell-label { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+.score-cell-val   { font-size: 1.3rem;  font-weight: 700; color: var(--navy-deep); font-family: 'Lora', serif; }
