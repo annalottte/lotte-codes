@@ -1,1141 +1,1304 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Anna-Lotte — GIS Developer & Creative</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anna-Lotte</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,500;1,400&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
     :root {
-      --mint:     #c8f0d8;
-      --rose:     #fcd5d5;
-      --lav:      #ddd4f5;
-      --peach:    #fde8cc;
-      --sky:      #c6e8f7;
-      --butter:   #faf3c0;
-      --sage:     #d4e9d4;
-      --blush:    #f9e1ea;
-      --ink:      #2a2340;
-      --ink2:     #453b6e;
-      --muted:    #8c85a8;
-      --white:    #fffffe;
-      --offwhite: #faf9ff;
+      --navy:      #1a2535;
+      --navy-deep: #0f1720;
+      --navy-mid:  #243350;
+      --rose:      #d4869a;
+      --rose-light:#f0cdd5;
+      --rose-pale: #faf0f2;
+      --amber:     #c9935a;
+      --amber-pale:#fdf3e8;
+      --cream:     #faf6ef;
+      --parchment: #f0e8d8;
+      --pixel-green: #4ec94e;
+      --pixel-cyan:  #4ecfcf;
+      --ink:       #1a2535;
+      --muted:     #7a8fa8;
+      --rule-light:rgba(26,37,53,0.12);
+      --rule-dark: rgba(255,255,255,0.1);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--offwhite);
+      font-family: 'Space Grotesk', sans-serif;
+      background: var(--cream);
       color: var(--ink);
       overflow-x: hidden;
     }
 
-    /* ---------- NAV ---------- */
+    /* ── subtle paper grain overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 999; pointer-events: none;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* ══════════════ NAV ══════════════ */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 1.2rem 3rem;
-      background: rgba(250,249,255,0.88);
+      padding: 1.1rem 3.5rem;
+      background: rgba(20,30,46,0.97);
       backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(200,195,220,0.25);
     }
 
     .nav-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.6rem;
-      color: var(--ink2);
+      font-family: 'Space Mono', monospace;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--rose-light);
       text-decoration: none;
+      letter-spacing: 0.04em;
     }
 
-    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links { display: flex; gap: 2.4rem; list-style: none; }
     .nav-links a {
       text-decoration: none;
-      font-size: 0.88rem;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
       transition: color 0.2s;
     }
-    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover { color: var(--rose-light); }
 
-    /* ---------- HERO ---------- */
+    /* ══════════════ HERO ══════════════ */
     .hero {
       min-height: 100vh;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0;
-      padding-top: 80px;
-      position: relative;
-      overflow: hidden;
+      padding-top: 64px;
     }
 
-    .hero-bg {
-      position: absolute; inset: 0; z-index: 0;
-      background:
-        radial-gradient(circle at 80% 20%, #fde8cc88 0%, transparent 40%),
-        radial-gradient(circle at 10% 70%, #ddd4f588 0%, transparent 40%),
-        radial-gradient(circle at 60% 90%, #c8f0d888 0%, transparent 35%);
-    }
-
+    /* LEFT — warm light side with subtle pixel grid */
     .hero-left {
-      position: relative; z-index: 1;
+      background: var(--cream);
+      padding: 5rem 4rem;
       display: flex; flex-direction: column; justify-content: center;
-      padding: 5rem 3.5rem 5rem 3rem;
+      position: relative; overflow: hidden;
     }
 
-    .hero-eyebrow {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.3rem;
-      color: var(--ink2);
-      margin-bottom: 1rem;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.2s forwards;
+    /* Pixel dot grid overlay */
+    .hero-left::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background-image: radial-gradient(circle, rgba(26,37,53,0.12) 1px, transparent 1px);
+      background-size: 24px 24px;
+      z-index: 0;
+    }
+
+    .hero-left > * { position: relative; z-index: 1; }
+
+    /* decorative pixel corner — top left */
+    .hero-left::after {
+      content: '';
+      position: absolute; bottom: 2rem; right: 2rem;
+      width: 80px; height: 80px;
+      border-bottom: 2px solid rgba(212,134,154,0.4);
+      border-right: 2px solid rgba(212,134,154,0.4);
+      pointer-events: none; z-index: 1;
+    }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem; font-weight: 400;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 1.6rem;
+      opacity: 0; animation: fadeUp 0.5s 0.1s forwards;
+    }
+    .hero-tag::before {
+      content: '//'; color: var(--amber); font-size: 0.8rem;
     }
 
     .hero-name {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(3.2rem, 5vw, 5rem);
-      line-height: 1.1;
+      font-size: clamp(3.6rem, 5vw, 5.8rem);
       font-weight: 700;
+      line-height: 1.0;
       color: var(--ink);
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.4s forwards;
+      margin-bottom: 0.2rem;
+      opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
     }
 
-    .hero-name em {
+    .hero-name-line2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.6rem, 5vw, 5.8rem);
+      font-weight: 400;
       font-style: italic;
-      color: var(--ink2);
+      line-height: 1.1;
+      color: var(--rose);
+      margin-bottom: 2rem;
+      opacity: 0; animation: fadeUp 0.7s 0.3s forwards;
+    }
+
+    .hero-divider {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 1.8rem;
+      opacity: 0; animation: fadeUp 0.5s 0.45s forwards;
+    }
+    .hero-divider span { width: 32px; height: 1px; background: var(--amber); display: block; }
+    .hero-divider em {
+      font-family: 'Space Mono', monospace;
+      font-style: normal;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
     }
 
     .hero-desc {
-      font-size: 1.05rem;
-      line-height: 1.75;
-      color: var(--muted);
-      max-width: 440px;
-      margin-bottom: 2.5rem;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.6s forwards;
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--ink);
+      opacity: 0.75;
+      font-weight: 400;
+      max-width: 420px;
+      margin-bottom: 2.4rem;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
     }
 
-    .hero-tags {
-      display: flex; flex-wrap: wrap; gap: 0.65rem;
+    .hero-chips {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
       margin-bottom: 2.8rem;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.8s forwards;
+      opacity: 0; animation: fadeUp 0.6s 0.65s forwards;
     }
 
-    .tag {
-      display: inline-block;
-      padding: 0.35rem 1rem;
-      border-radius: 99px;
-      font-size: 0.82rem;
-      font-weight: 500;
-      letter-spacing: 0.02em;
+    .chip {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem; font-weight: 400;
+      padding: 0.35rem 0.9rem;
+      border-radius: 2px;
+      letter-spacing: 0.04em;
     }
-
-    .tag-mint   { background: var(--mint);   color: #2a6646; }
-    .tag-rose   { background: var(--rose);   color: #8a3030; }
-    .tag-lav    { background: var(--lav);    color: var(--ink2); }
-    .tag-peach  { background: var(--peach);  color: #8a5520; }
-    .tag-sky    { background: var(--sky);    color: #1a5c80; }
-    .tag-butter { background: var(--butter); color: #7a6800; }
-    .tag-sage   { background: var(--sage);   color: #2a5c2a; }
-    .tag-blush  { background: var(--blush);  color: #8a3055; }
+    .chip-rose   { background: var(--rose-pale);  color: #8a3050; border: 1px solid rgba(212,134,154,0.4); }
+    .chip-amber  { background: var(--amber-pale); color: #7a4a10; border: 1px solid rgba(201,147,90,0.4); }
+    .chip-mist   { background: #eef2f8;           color: var(--navy-mid); border: 1px solid rgba(26,37,53,0.15); }
 
     .hero-cta {
-      display: flex; gap: 1rem;
-      opacity: 0;
-      animation: fadeUp 0.7s 1s forwards;
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.5s 0.8s forwards;
     }
 
-    .btn {
-      padding: 0.75rem 1.8rem;
-      border-radius: 99px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      cursor: pointer;
-      text-decoration: none;
-      border: 2px solid transparent;
-      transition: all 0.2s;
-      display: inline-block;
+    .btn-rose {
+      padding: 0.8rem 2rem;
+      background: var(--navy);
+      color: #fff;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none; border: none; cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.2s, transform 0.15s;
     }
+    .btn-rose:hover { background: var(--navy-mid); transform: translateY(-2px); }
 
-    .btn-primary {
-      background: var(--ink);
-      color: var(--white);
-    }
-    .btn-primary:hover { background: var(--ink2); transform: translateY(-2px); }
-
-    .btn-ghost {
+    .btn-outline {
+      padding: 0.8rem 2rem;
       background: transparent;
       color: var(--ink);
-      border-color: rgba(42,35,64,0.3);
-    }
-    .btn-ghost:hover { border-color: var(--ink); transform: translateY(-2px); }
-
-    /* Hero right — illustration area */
-    .hero-right {
-      position: relative; z-index: 1;
-      display: flex; align-items: center; justify-content: center;
-      padding: 5rem 3rem;
-      opacity: 0;
-      animation: fadeIn 1s 0.5s forwards;
-    }
-
-    .globe-scene {
-      position: relative;
-      width: 460px; height: 500px;
-    }
-
-    /* slow rotation on the whole SVG globe */
-    .globe-rotate {
-      animation: globeSpin 30s linear infinite;
-      transform-origin: 50% 50%;
-    }
-    @keyframes globeSpin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-
-    /* polaroids float gently */
-    @keyframes floatA {
-      0%,100% { transform: rotate(-6deg) translateY(0px); }
-      50%      { transform: rotate(-6deg) translateY(-9px); }
-    }
-    @keyframes floatB {
-      0%,100% { transform: rotate(5deg) translateY(0px); }
-      50%      { transform: rotate(5deg) translateY(-7px); }
-    }
-    @keyframes floatC {
-      0%,100% { transform: rotate(-3deg) translateY(0px); }
-      50%      { transform: rotate(-3deg) translateY(-11px); }
-    }
-
-    .polaroid {
-      position: absolute;
-      background: white;
-      border-radius: 4px;
-      box-shadow: 0 8px 28px rgba(80,70,120,0.18);
-      padding: 8px 8px 28px 8px;
-      filter: drop-shadow(0 4px 12px rgba(80,70,120,0.12));
-    }
-    .polaroid-img {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none;
+      border: 1.5px solid rgba(26,37,53,0.3);
       border-radius: 2px;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+    }
+    .btn-outline:hover { border-color: var(--rose); color: var(--rose); transform: translateY(-2px); }
+
+    /* RIGHT — dark panel, pixel scene */
+    .hero-right {
+      background: var(--navy-deep);
+      display: flex; align-items: center; justify-content: center;
+      padding: 4rem 3rem;
+      position: relative; overflow: hidden;
+      opacity: 0; animation: fadeIn 1.2s 0.3s forwards;
+    }
+
+    /* Scanlines */
+    .hero-right::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none; z-index: 1;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 3px,
+        rgba(255,255,255,0.018) 3px, rgba(255,255,255,0.018) 4px
+      );
+    }
+
+    /* Pixel dot grid */
+    .hero-right::after {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none; z-index: 0;
+      background-image: radial-gradient(circle, rgba(78,201,201,0.07) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    .pixel-scene { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 1rem; width: 100%; }
+
+    .scene-container {
+      position: relative;
+      width: 100%;
+      max-width: 560px;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+    }
+
+    .scene-img {
       display: block;
-    }
-    .polaroid-label {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 11px;
-      font-style: italic;
-      color: var(--muted);
-      text-align: center;
-      margin-top: 6px;
-      line-height: 1;
+      width: 100%;
+      height: auto;
+      image-rendering: pixelated;
     }
 
-    .pol-a { bottom: 18%; left: -8%;  animation: floatA 5s ease-in-out infinite; }
-    .pol-b { top: 5%;    right: -4%;  animation: floatB 4.5s ease-in-out infinite; animation-delay: 0.8s; }
-    .pol-c { bottom: 2%; right: 2%;   animation: floatC 5.5s ease-in-out infinite; animation-delay: 1.5s; }
-
-    /* ---------- SECTIONS ---------- */
-    section { padding: 6rem 3rem; }
-    .section-inner { max-width: 1100px; margin: 0 auto; }
-
-    .section-label {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      color: var(--ink2);
-      margin-bottom: 0.5rem;
+    .scene-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
     }
 
-    .section-title {
+    /* Hotspot zones — invisible until hover */
+    .hotspot {
+      cursor: pointer;
+      transition: fill 0.2s;
+    }
+    .hotspot:hover { fill: rgba(255,255,255,0.04); }
+
+    /* Tooltip labels — hidden by default, shown on parent hover */
+    a:hover .hotspot-label { opacity: 1 !important; }
+    .hotspot-label { transition: opacity 0.2s; }
+
+    .pixel-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem; color: rgba(78,201,201,0.6);
+      letter-spacing: 0.16em; text-transform: uppercase;
+    }
+
+    .pixel-status {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem; color: rgba(212,134,154,0.7);
+      letter-spacing: 0.1em;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .pixel-status-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #4ec94e;
+      animation: blink 1.2s step-start infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ══════════════ SECTION COMMONS ══════════════ */
+    .section-inner { max-width: 1120px; margin: 0 auto; }
+
+    .section-kicker {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem; font-weight: 400;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--rose);
+      margin-bottom: 1rem;
+    }
+    .section-kicker::before {
+      content: '//'; color: var(--amber); margin-right: 0.2rem;
+    }
+
+    .section-heading {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      font-weight: 700;
+      color: var(--navy-deep);
       line-height: 1.2;
-      margin-bottom: 3rem;
-      color: var(--ink);
+      margin-bottom: 0.4rem;
+    }
+    .section-heading em {
+      font-style: italic; font-weight: 400;
+      color: var(--rose);
     }
 
-    /* ---------- ABOUT ---------- */
-    #about { background: white; }
+    .section-rule {
+      width: 48px; height: 2px;
+      background: linear-gradient(90deg, var(--rose), var(--amber));
+      margin: 1.4rem 0 3rem;
+      border-radius: 2px;
+    }
+
+    /* ══════════════ ABOUT ══════════════ */
+    #about {
+      padding: 7rem 3.5rem;
+      background:
+        radial-gradient(ellipse at 0% 0%, rgba(212,134,154,0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 100% 100%, rgba(201,147,90,0.1) 0%, transparent 50%),
+        var(--cream);
+    }
 
     .about-grid {
       display: grid;
       grid-template-columns: 1.1fr 1fr;
-      gap: 5rem;
-      align-items: center;
+      gap: 5rem; align-items: start;
     }
 
-    .about-text p {
-      font-size: 1.05rem;
-      line-height: 1.85;
-      color: #555068;
-      margin-bottom: 1.5rem;
+    .about-body p {
+      font-size: 1rem; line-height: 1.9;
+      color: #445568; font-weight: 400;
+      margin-bottom: 1.4rem;
     }
 
-    .about-hobbies {
+    .about-tiles {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
     }
 
-    .hobby-card {
-      background: var(--offwhite);
-      border-radius: 16px;
-      padding: 1.5rem;
-      text-align: center;
-      transition: transform 0.2s;
+    .about-tile {
+      padding: 1.4rem 1.2rem;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .hobby-card:hover { transform: translateY(-4px); }
+    .about-tile:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(30,45,69,0.1); }
 
-    .hobby-icon {
-      font-size: 2rem;
-      margin-bottom: 0.6rem;
-    }
+    .tile-rose   { background: var(--rose-pale);  border-color: rgba(212,134,154,0.25); }
+    .tile-amber  { background: var(--amber-pale); border-color: rgba(201,147,90,0.25); }
+    .tile-navy   { background: #eef2f7;           border-color: rgba(30,45,69,0.12); }
+    .tile-parch  { background: var(--parchment);  border-color: rgba(30,45,69,0.1); }
 
-    .hobby-name {
-      font-weight: 500;
-      font-size: 0.92rem;
-      color: var(--ink);
-    }
+    .tile-icon { font-size: 1.6rem; margin-bottom: 0.6rem; display: block; }
+    .tile-name { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 600; color: var(--navy); margin-bottom: 0.2rem; }
+    .tile-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
 
-    .hobby-desc {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 0.25rem;
+    /* ══════════════ SKILLS ══════════════ */
+    #skills {
+      padding: 5.5rem 3.5rem;
+      background: var(--navy);
+      position: relative; overflow: hidden;
     }
 
-    /* ---------- SKILLS ---------- */
-    #skills { background: var(--offwhite); }
+    #skills::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
 
-    .skills-grid {
+    #skills .section-kicker { color: var(--rose); }
+    #skills .section-heading { color: #fff; }
+    #skills .section-heading em { color: var(--amber); }
+
+    .skills-cols {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
+      gap: 2.5rem;
     }
 
-    .skill-pill-group h3 {
-      font-size: 0.78rem;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 0.9rem;
-    }
-
-    .pill-row {
-      display: flex; flex-wrap: wrap; gap: 0.5rem;
-    }
-
-    .skill-pill {
-      padding: 0.3rem 0.85rem;
-      border-radius: 99px;
-      font-size: 0.82rem;
-      font-weight: 500;
-    }
-
-    /* ---------- PROJECTS ---------- */
-    #work-projects { background: white; }
-    #personal-projects { background: var(--offwhite); }
-
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.8rem;
-    }
-
-    .project-card {
-      background: white;
-      border-radius: 20px;
-      padding: 2rem;
-      border: 1.5px solid rgba(200,195,230,0.35);
-      transition: transform 0.25s, box-shadow 0.25s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .project-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 4px;
-      border-radius: 20px 20px 0 0;
-    }
-
-    .card-mint::before   { background: var(--mint); }
-    .card-rose::before   { background: var(--rose); }
-    .card-lav::before    { background: var(--lav); }
-    .card-peach::before  { background: var(--peach); }
-    .card-sky::before    { background: var(--sky); }
-    .card-blush::before  { background: var(--blush); }
-
-    .project-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 36px rgba(80,70,120,0.12);
-    }
-
-    .project-emoji {
-      font-size: 2.2rem;
-      margin-bottom: 1rem;
-      display: block;
-    }
-
-    .project-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 0.6rem;
-    }
-
-    .project-desc {
-      font-size: 0.9rem;
-      line-height: 1.7;
-      color: #666080;
+    .skill-col-head {
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--amber);
       margin-bottom: 1.2rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
-    .project-tags {
+    .skill-item {
+      display: flex; align-items: center; gap: 0.7rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.9rem; font-weight: 400;
+      color: rgba(255,255,255,0.7);
+      transition: color 0.2s;
+    }
+    .skill-item:hover { color: rgba(255,255,255,0.95); }
+    .skill-item::before {
+      content: ''; width: 4px; height: 4px; border-radius: 50%;
+      background: var(--rose); flex-shrink: 0;
+    }
+
+    /* ══════════════ PROJECTS — book spines ══════════════ */
+    #work-projects {
+      padding: 7rem 3.5rem;
+      background:
+        radial-gradient(ellipse at 100% 0%, rgba(212,134,154,0.1) 0%, transparent 45%),
+        var(--cream);
+    }
+
+    #personal-projects {
+      padding: 7rem 3.5rem;
+      background:
+        radial-gradient(ellipse at 0% 100%, rgba(201,147,90,0.12) 0%, transparent 45%),
+        var(--parchment);
+    }
+
+    .book-shelf {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.6rem;
+    }
+
+    .book-card {
+      border-radius: 6px 10px 10px 6px;
+      overflow: hidden;
+      box-shadow: 4px 6px 24px rgba(30,45,69,0.14), 2px 2px 6px rgba(30,45,69,0.08);
+      transition: transform 0.25s, box-shadow 0.25s;
+      cursor: default;
+      display: flex; flex-direction: column;
+    }
+    .book-card:hover {
+      transform: translateY(-6px) rotate(0.5deg);
+      box-shadow: 6px 12px 36px rgba(30,45,69,0.2);
+    }
+
+    .book-spine {
+      width: 8px; flex-shrink: 0;
+    }
+
+    .book-cover {
+      padding: 1.8rem 1.6rem;
+      flex: 1; display: flex; flex-direction: column;
+    }
+
+    .book-cover-rose   { background: linear-gradient(160deg, #fdf4f6 0%, #f5e0e5 100%); }
+    .book-cover-amber  { background: linear-gradient(160deg, #fdf8f0 0%, #f5e6d0 100%); }
+    .book-cover-navy   { background: linear-gradient(160deg, #eef3fa 0%, #d8e4f0 100%); }
+    .book-cover-sage   { background: linear-gradient(160deg, #f2f8f2 0%, #d8ecda 100%); }
+    .book-cover-plum   { background: linear-gradient(160deg, #f6f0fa 0%, #e4d4f0 100%); }
+    .book-cover-teal   { background: linear-gradient(160deg, #f0f8fa 0%, #d0e8ec 100%); }
+
+    .book-spine-rose   { background: var(--rose); }
+    .book-spine-amber  { background: var(--amber); }
+    .book-spine-navy   { background: var(--navy); }
+    .book-spine-sage   { background: #6a9e6e; }
+    .book-spine-plum   { background: #8a6aaa; }
+    .book-spine-teal   { background: #4a8a9e; }
+
+    .book-genre {
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.7rem;
+    }
+
+    .book-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--navy-deep);
+      line-height: 1.3; margin-bottom: 0.8rem;
+    }
+
+    .book-desc {
+      font-size: 0.85rem; line-height: 1.75;
+      color: #5a6e80; font-weight: 400;
+      margin-bottom: 1.2rem; flex: 1;
+    }
+
+    .book-tags {
       display: flex; flex-wrap: wrap; gap: 0.4rem;
     }
 
-    .project-tag {
-      padding: 0.2rem 0.7rem;
-      border-radius: 99px;
-      font-size: 0.75rem;
-      font-weight: 500;
-      background: var(--offwhite);
-      color: var(--muted);
-      border: 1px solid rgba(200,195,230,0.5);
-    }
-
-    /* ---------- BLOG ---------- */
-    #blog { background: white; }
-
-    .blog-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.8rem;
-    }
-
-    .blog-card {
-      border-radius: 20px;
-      padding: 2rem;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.25s;
-      cursor: pointer;
-    }
-    .blog-card:hover { transform: translateY(-4px); }
-
-    .blog-card-bg {
-      position: absolute; inset: 0; opacity: 0.35;
-      border-radius: 20px;
-    }
-
-    .blog-content { position: relative; z-index: 1; }
-
-    .blog-category {
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--ink2);
-      margin-bottom: 0.8rem;
-    }
-
-    .blog-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1.4;
-      margin-bottom: 0.7rem;
-    }
-
-    .blog-excerpt {
-      font-size: 0.87rem;
-      line-height: 1.7;
-      color: #666080;
-      margin-bottom: 1.2rem;
-    }
-
-    .blog-meta {
-      display: flex; align-items: center; gap: 0.5rem;
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
-
-    .blog-meta span { display: flex; align-items: center; }
-
-    /* ---------- TRAVEL STRIP ---------- */
-    .travel-strip {
-      background: var(--ink);
-      padding: 3rem;
-      overflow: hidden;
-    }
-
-    .travel-inner { max-width: 1100px; margin: 0 auto; }
-
-    .travel-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
-      color: var(--lav);
-      margin-bottom: 1.5rem;
-    }
-
-    .travel-pins {
-      display: flex; flex-wrap: wrap; gap: 1rem;
-    }
-
-    .travel-pin {
-      display: flex; align-items: center; gap: 0.5rem;
-      background: rgba(255,255,255,0.07);
-      border-radius: 99px;
-      padding: 0.45rem 1.1rem;
-      font-size: 0.88rem;
-      color: rgba(255,255,255,0.85);
-    }
-
-    /* ---------- CONTACT ---------- */
-    #contact { background: var(--offwhite); }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 5rem;
-      align-items: start;
-    }
-
-    .contact-left h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.4rem;
-      color: var(--ink);
-      margin-bottom: 1rem;
-    }
-
-    .contact-left p {
-      font-size: 1rem;
-      line-height: 1.75;
-      color: var(--muted);
-      max-width: 400px;
-      margin-bottom: 2rem;
-    }
-
-    .social-links {
-      display: flex; gap: 1rem; flex-wrap: wrap;
-    }
-
-    .social-link {
-      display: flex; align-items: center; gap: 0.5rem;
-      padding: 0.6rem 1.3rem;
-      border-radius: 99px;
-      font-size: 0.88rem;
-      font-weight: 500;
-      text-decoration: none;
-      border: 1.5px solid rgba(80,70,120,0.2);
-      color: var(--ink2);
-      transition: all 0.2s;
-      background: white;
-    }
-    .social-link:hover {
-      background: var(--lav);
-      border-color: var(--lav);
-      transform: translateY(-2px);
-    }
-
-    .contact-form {
-      background: white;
-      border-radius: 24px;
-      padding: 2.5rem;
-      border: 1.5px solid rgba(200,195,230,0.3);
-    }
-
-    .form-group { margin-bottom: 1.3rem; }
-
-    .form-group label {
-      display: block;
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--muted);
-      margin-bottom: 0.4rem;
+    .book-tag {
+      font-size: 0.7rem; font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+      background: rgba(30,45,69,0.07);
+      color: var(--navy-mid);
       letter-spacing: 0.03em;
     }
 
-    .form-group input,
-    .form-group textarea {
+    /* ══════════════ TRAVEL ══════════════ */
+    .travel-section {
+      padding: 5rem 3.5rem;
+      background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
+      position: relative; overflow: hidden;
+    }
+
+    .travel-section::after {
+      content: '';
+      position: absolute; top: -60px; right: -60px;
+      width: 280px; height: 280px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,134,154,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .travel-inner { max-width: 1120px; margin: 0 auto; }
+
+    .travel-top {
+      display: flex; align-items: baseline; gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .travel-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; font-weight: 400; font-style: italic;
+      color: var(--rose-light);
+    }
+
+    .travel-count {
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,255,255,0.28);
+    }
+
+    .travel-grid {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+    }
+
+    .travel-chip {
+      font-size: 0.82rem; font-weight: 400;
+      color: rgba(255,255,255,0.6);
+      padding: 0.38rem 1rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 2px;
+      transition: all 0.2s; cursor: default;
+    }
+    .travel-chip:hover {
+      color: #fff;
+      border-color: var(--rose);
+      background: rgba(212,134,154,0.1);
+    }
+
+    /* ══════════════ WRITING ══════════════ */
+    #blog {
+      padding: 7rem 3.5rem;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(212,134,154,0.1) 0%, transparent 50%),
+        var(--cream);
+    }
+
+    .writing-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .writing-card {
+      padding: 2rem;
+      border-radius: 6px;
+      background: #fff;
+      border: 1px solid rgba(30,45,69,0.08);
+      box-shadow: 0 2px 12px rgba(30,45,69,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: default;
+      position: relative; overflow: hidden;
+    }
+    .writing-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .writing-card:nth-child(1)::before { background: linear-gradient(90deg, var(--rose), var(--rose-light)); }
+    .writing-card:nth-child(2)::before { background: linear-gradient(90deg, var(--navy), var(--navy-mid)); }
+    .writing-card:nth-child(3)::before { background: linear-gradient(90deg, var(--amber), #e8c07a); }
+    .writing-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(30,45,69,0.12); }
+
+    .writing-cat {
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.8rem;
+    }
+
+    .writing-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-weight: 600;
+      color: var(--navy-deep); line-height: 1.4;
+      margin-bottom: 0.7rem;
+    }
+
+    .writing-excerpt {
+      font-size: 0.87rem; line-height: 1.75;
+      color: #5a6e80; font-weight: 400;
+      margin-bottom: 1.2rem;
+    }
+
+    .writing-meta {
+      font-size: 0.75rem; color: var(--muted);
+    }
+
+    /* ══════════════ CONTACT ══════════════ */
+    #contact {
+      padding: 7rem 3.5rem;
+      background: var(--navy);
+      position: relative; overflow: hidden;
+    }
+
+    #contact::before {
+      content: '';
+      position: absolute; bottom: -80px; left: -80px;
+      width: 360px; height: 360px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,147,90,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem; align-items: start;
+    }
+
+    .contact-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.6rem; font-weight: 700;
+      color: #fff; line-height: 1.15;
+      margin-bottom: 1.2rem;
+    }
+    .contact-heading em { font-style: italic; font-weight: 400; color: var(--rose); }
+
+    .contact-desc {
+      font-size: 0.96rem; line-height: 1.85;
+      color: rgba(255,255,255,0.55); font-weight: 300;
+      max-width: 380px; margin-bottom: 2.5rem;
+    }
+
+    .socials { display: flex; gap: 1.2rem; flex-wrap: wrap; }
+
+    .social-btn {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.76rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      padding: 0.55rem 1.2rem;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+    .social-btn:hover {
+      color: #fff;
+      border-color: var(--rose);
+      background: rgba(212,134,154,0.12);
+    }
+
+    .form-field { margin-bottom: 1.4rem; }
+
+    .form-field label {
+      display: block;
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-field input,
+    .form-field textarea {
       width: 100%;
-      padding: 0.75rem 1rem;
-      border: 1.5px solid rgba(200,195,230,0.5);
-      border-radius: 12px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.92rem;
-      color: var(--ink);
-      background: var(--offwhite);
-      outline: none;
-      transition: border-color 0.2s;
-      resize: none;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+      padding: 0.8rem 1rem;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.92rem; font-weight: 400;
+      color: rgba(255,255,255,0.85);
+      outline: none; resize: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .form-field input::placeholder,
+    .form-field textarea::placeholder { color: rgba(255,255,255,0.22); }
+    .form-field input:focus,
+    .form-field textarea:focus {
+      border-color: var(--rose);
+      background: rgba(255,255,255,0.07);
     }
 
-    .form-group input:focus,
-    .form-group textarea:focus {
-      border-color: var(--ink2);
+    .btn-send {
+      padding: 0.85rem 2.2rem;
+      background: var(--rose);
+      color: #fff;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      border: none; border-radius: 2px;
+      cursor: pointer; transition: background 0.2s, transform 0.15s;
     }
+    .btn-send:hover { background: #c0728a; transform: translateY(-1px); }
 
-    .form-submit {
-      width: 100%;
-      padding: 0.85rem;
-      border-radius: 12px;
-      background: var(--ink);
-      color: white;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 500;
-      border: none;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
-    }
-    .form-submit:hover { background: var(--ink2); transform: translateY(-1px); }
+    .book-card-link { text-decoration:none; display:flex; }
+    .book-card-link:hover .book-title { color:var(--rose); }
 
-    /* ---------- FOOTER ---------- */
+    /* ══════════════ FOOTER ══════════════ */
     footer {
-      background: var(--ink);
-      color: rgba(255,255,255,0.5);
-      text-align: center;
-      padding: 2rem 3rem;
-      font-size: 0.85rem;
+      background: var(--navy-deep);
+      padding: 1.8rem 3.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid rgba(255,255,255,0.05);
     }
 
-    footer span { color: rgba(255,255,255,0.8); }
+    .footer-sig {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.35);
+    }
 
-    /* ---------- ANIMATIONS ---------- */
+    .footer-copy {
+      font-size: 0.72rem; letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* ══════════════ ANIMATIONS ══════════════ */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from { opacity:0; transform:translateY(18px); }
+      to   { opacity:1; transform:translateY(0); }
     }
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
+      from { opacity:0; } to { opacity:1; }
     }
 
     .reveal {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
     }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
-    /* ---------- RESPONSIVE ---------- */
-    @media (max-width: 860px) {
+    /* ══════════════ RESPONSIVE ══════════════ */
+    @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; }
       .hero-right { display: none; }
-      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .skills-grid { grid-template-columns: 1fr 1fr; }
-      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { gap: 1.2rem; }
-      section { padding: 4rem 1.5rem; }
-    }
-
-    @media (max-width: 540px) {
-      .skills-grid { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
-      .hero-left { padding: 3rem 1.5rem; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .book-shelf, .skills-cols, .writing-row { grid-template-columns: 1fr; }
+      nav, #about, #skills, #work-projects, #personal-projects,
+      #blog, #contact, .travel-section, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .hero-left { padding: 4rem 1.5rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <a href="#" class="nav-logo">Anna-Lotte ✦</a>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#work-projects">Work</a></li>
-      <li><a href="#personal-projects">Projects</a></li>
-      <li><a href="#blog">Writing</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">anna-lotte<span style="color:var(--rose)">_</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work-projects">Work</a></li>
+    <li><a href="#personal-projects">Projects</a></li>
+    <li><a href="#blog">Writing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
-  <!-- HERO -->
-  <section class="hero" id="home">
-    <div class="hero-bg"></div>
-    <div class="hero-left">
-      <p class="hero-eyebrow">✦ Hello there, I'm</p>
-      <h1 class="hero-name">Anna-<em>Lotte</em></h1>
-      <p class="hero-desc">
-        GIS Developer by day, builder of apps & games by passion.
-        I turn maps into meaning, code ideas into reality,
-        and worlds into stories — one commit at a time.
-      </p>
-      <div class="hero-tags">
-        <span class="tag tag-mint">🗺️ GIS & Spatial</span>
-        <span class="tag tag-lav">💻 App Dev</span>
-        <span class="tag tag-peach">🎮 Game Maker</span>
-        <span class="tag tag-rose">✍️ Fiction Writer</span>
-        <span class="tag tag-sky">✈️ Traveller</span>
-        <span class="tag tag-butter">🛠️ Tool Builder</span>
-      </div>
-      <div class="hero-cta">
-        <a href="#work-projects" class="btn btn-primary">See my work</a>
-        <a href="#contact" class="btn btn-ghost">Get in touch</a>
-      </div>
+<!-- HERO -->
+<section class="hero" id="home">
+
+  <div class="hero-left">
+    <p class="hero-tag">GIS Developer &nbsp;·&nbsp; Builder &nbsp;·&nbsp; The Hague</p>
+    <h1 class="hero-name">Anna-</h1>
+    <h1 class="hero-name-line2">Lotte.</h1>
+    <div class="hero-divider">
+      <span></span>
+      <em>Developer · Creator · Explorer</em>
+      <span></span>
     </div>
-
-    <div class="hero-right">
-      <div class="globe-scene">
-
-        <!-- SVG Globe -->
-        <svg width="340" height="340" viewBox="0 0 340 340" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-54%);" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <clipPath id="globe-clip">
-              <circle cx="170" cy="170" r="148"/>
-            </clipPath>
-            <radialGradient id="globe-grad" cx="40%" cy="35%">
-              <stop offset="0%"   stop-color="#e8f4fd"/>
-              <stop offset="60%"  stop-color="#c6e8f7"/>
-              <stop offset="100%" stop-color="#9dd0ed"/>
-            </radialGradient>
-            <radialGradient id="globe-shine" cx="35%" cy="30%">
-              <stop offset="0%"  stop-color="white" stop-opacity="0.55"/>
-              <stop offset="70%" stop-color="white" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
-
-          <!-- ocean -->
-          <circle cx="170" cy="170" r="148" fill="url(#globe-grad)"/>
-
-          <!-- landmasses clipped to globe -->
-          <g clip-path="url(#globe-clip)" class="globe-rotate">
-            <!-- Europe -->
-            <path d="M168 90 Q175 85 182 88 L186 95 Q183 100 178 102 L172 105 Q165 103 163 97 Z" fill="#c8f0d8"/>
-            <path d="M155 95 Q162 90 168 90 L163 97 Q160 102 155 100 Z" fill="#c8f0d8"/>
-            <!-- Scandinavia bump -->
-            <path d="M162 78 Q168 72 174 75 L176 83 Q170 86 165 84 Z" fill="#c8f0d8"/>
-            <!-- UK -->
-            <path d="M148 87 Q153 84 157 86 L158 93 Q154 95 150 93 Z" fill="#c8f0d8"/>
-            <!-- Africa -->
-            <path d="M160 112 Q170 108 180 112 L185 130 Q182 155 178 165 Q170 172 162 165 Q156 152 155 132 Z" fill="#c8f0d8"/>
-            <!-- Asia big -->
-            <path d="M186 88 Q210 82 238 88 L248 100 Q255 115 252 130 L240 138 Q220 140 200 135 L186 120 Q183 105 186 88 Z" fill="#c8f0d8"/>
-            <!-- Japan -->
-            <path d="M252 100 Q258 97 263 100 L264 108 Q260 112 255 110 Z" fill="#c8f0d8"/>
-            <!-- Australia -->
-            <path d="M230 160 Q248 155 260 162 L265 175 Q260 188 248 190 Q236 188 228 178 Z" fill="#c8f0d8"/>
-            <!-- Americas -->
-            <path d="M80 90 Q95 84 110 88 L115 105 Q112 125 108 140 Q100 148 90 145 L82 128 Q78 108 80 90 Z" fill="#c8f0d8"/>
-            <path d="M90 148 Q98 144 105 148 L108 165 Q106 185 100 195 Q93 198 88 193 L85 175 Q84 160 90 148 Z" fill="#c8f0d8"/>
-            <!-- South America -->
-            <path d="M100 200 Q112 196 120 202 L122 220 Q118 245 110 258 Q102 260 96 252 Q90 238 92 218 Z" fill="#c8f0d8"/>
-
-            <!-- latitude lines -->
-            <ellipse cx="170" cy="170" rx="148" ry="30"  fill="none" stroke="white" stroke-width="0.6" stroke-opacity="0.4"/>
-            <ellipse cx="170" cy="170" rx="148" ry="75"  fill="none" stroke="white" stroke-width="0.6" stroke-opacity="0.3"/>
-            <ellipse cx="170" cy="170" rx="148" ry="120" fill="none" stroke="white" stroke-width="0.6" stroke-opacity="0.3"/>
-            <!-- longitude lines -->
-            <ellipse cx="170" cy="170" rx="30"  ry="148" fill="none" stroke="white" stroke-width="0.6" stroke-opacity="0.3"/>
-            <ellipse cx="170" cy="170" rx="75"  ry="148" fill="none" stroke="white" stroke-width="0.6" stroke-opacity="0.3"/>
-            <ellipse cx="170" cy="170" rx="120" ry="148" fill="none" stroke="white" stroke-width="0.6" stroke-opacity="0.3"/>
-
-            <!-- travel pins -->
-            <circle cx="170" cy="94"  r="4" fill="#f9a8d4" stroke="white" stroke-width="1.5"/><!-- NL -->
-            <circle cx="258" cy="104" r="4" fill="#f9a8d4" stroke="white" stroke-width="1.5"/><!-- Japan -->
-            <circle cx="143" cy="84"  r="4" fill="#f9a8d4" stroke="white" stroke-width="1.5"/><!-- Iceland -->
-            <circle cx="155" cy="108" r="4" fill="#f9a8d4" stroke="white" stroke-width="1.5"/><!-- Portugal -->
-            <circle cx="164" cy="118" r="4" fill="#f9a8d4" stroke="white" stroke-width="1.5"/><!-- Morocco -->
-            <circle cx="248" cy="164" r="4" fill="#f9a8d4" stroke="white" stroke-width="1.5"/><!-- NZ -->
-            <circle cx="96"  cy="155" r="4" fill="#f9a8d4" stroke="white" stroke-width="1.5"/><!-- Costa Rica -->
-          </g>
-
-          <!-- globe border -->
-          <circle cx="170" cy="170" r="148" fill="none" stroke="#b8d8ee" stroke-width="1.5"/>
-          <!-- shine overlay -->
-          <circle cx="170" cy="170" r="148" fill="url(#globe-shine)"/>
-        </svg>
-
-        <!-- Polaroid A — tilted left, lower left -->
-        <div class="polaroid pol-a" style="width:118px;">
-          <svg class="polaroid-img" width="102" height="80" viewBox="0 0 102 80">
-            <rect width="102" height="80" rx="2" fill="#fde8cc"/>
-            <!-- Torii gate silhouette (Japan) -->
-            <rect x="30" y="48" width="6"  height="22" fill="#c0603a"/>
-            <rect x="66" y="48" width="6"  height="22" fill="#c0603a"/>
-            <rect x="24" y="38" width="54" height="7" rx="2" fill="#c0603a"/>
-            <rect x="28" y="46" width="46" height="5" rx="1" fill="#c0603a"/>
-            <!-- sky -->
-            <rect width="102" height="38" rx="2" fill="#fcd5a8"/>
-            <!-- sun -->
-            <circle cx="78" cy="18" r="9" fill="#f97316" opacity="0.8"/>
-            <!-- ground -->
-            <rect y="68" width="102" height="12" rx="0" fill="#a3d9b0"/>
-          </svg>
-          <div class="polaroid-label">Tokyo ✈</div>
-        </div>
-
-        <!-- Polaroid B — tilted right, top right -->
-        <div class="polaroid pol-b" style="width:112px;">
-          <svg class="polaroid-img" width="96" height="76" viewBox="0 0 96 76">
-            <!-- Iceland sky -->
-            <rect width="96" height="76" rx="2" fill="#c6e8f7"/>
-            <!-- aurora bands -->
-            <path d="M0 30 Q24 20 48 28 Q72 36 96 26 L96 38 Q72 48 48 40 Q24 32 0 42 Z" fill="#a8e6cf" opacity="0.7"/>
-            <path d="M0 38 Q24 32 48 40 Q72 48 96 38 L96 46 Q72 54 48 48 Q24 40 0 50 Z" fill="#ddd4f5" opacity="0.6"/>
-            <!-- snow ground -->
-            <rect y="62" width="96" height="14" rx="0" fill="white"/>
-            <!-- mountain -->
-            <polygon points="30,62 52,28 74,62" fill="#e8f0f8"/>
-            <polygon points="38,62 52,38 66,62" fill="white" opacity="0.6"/>
-          </svg>
-          <div class="polaroid-label">Iceland 🌌</div>
-        </div>
-
-        <!-- Polaroid C — bottom right, slight tilt -->
-        <div class="polaroid pol-c" style="width:108px;">
-          <svg class="polaroid-img" width="92" height="72" viewBox="0 0 92 72">
-            <!-- Morocco warm sky -->
-            <rect width="92" height="72" rx="2" fill="#fef3c7"/>
-            <!-- sunset gradient suggestion -->
-            <rect y="40" width="92" height="32" fill="#fed7aa" rx="0"/>
-            <!-- arch / doorway -->
-            <path d="M30 72 L30 40 Q46 26 62 40 L62 72 Z" fill="#c2814a"/>
-            <path d="M34 72 L34 42 Q46 30 58 42 L58 72 Z" fill="#fef3c7"/>
-            <!-- mosaic hint -->
-            <rect x="38" y="50" width="6" height="6" fill="#86efac" opacity="0.8"/>
-            <rect x="48" y="50" width="6" height="6" fill="#93c5fd" opacity="0.8"/>
-            <rect x="38" y="60" width="6" height="6" fill="#f9a8d4" opacity="0.8"/>
-            <rect x="48" y="60" width="6" height="6" fill="#fde68a" opacity="0.8"/>
-            <!-- palm -->
-            <rect x="72" y="42" width="3" height="30" fill="#a16207"/>
-            <path d="M74 42 Q60 32 58 24 Q66 28 72 36 Z" fill="#4ade80" opacity="0.9"/>
-            <path d="M74 42 Q88 30 90 22 Q82 28 76 38 Z" fill="#4ade80" opacity="0.9"/>
-          </svg>
-          <div class="polaroid-label">Fez, Morocco 🌿</div>
-        </div>
-
-      </div>
+    <p class="hero-desc">[Your words here — a sentence or two about who you are and what drives you.]</p>
+    <div class="hero-chips">
+      <span class="chip chip-rose">🗺 GIS &amp; Maps</span>
+      <span class="chip chip-amber">🎮 Game Dev</span>
+      <span class="chip chip-mist">✍ Fiction</span>
+      <span class="chip chip-mist">✈ 18 countries</span>
+      <span class="chip chip-rose">🛠 Tool Builder</span>
     </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="section-inner">
-      <div class="about-grid reveal">
-        <div class="about-text">
-          <p class="section-label">Who am I?</p>
-          <h2 class="section-title">Developer, creator,<br><em style="font-family:'Playfair Display',serif;font-style:italic;">adventurer.</em></h2>
-          <p>
-            I'm Anna-Lotte, a GIS Developer with a deep love for anything that lives at the intersection of code and creativity. My professional work revolves around spatial data, maps, and geographic systems — but what really gets me excited is building things: apps, tools, games, experiments.
-          </p>
-          <p>
-            When I'm not mapping the world, I'm writing it. Fiction is my other language — crafting characters and worlds that feel as real as coordinates on a map. And every now and then, I close the laptop and go explore one of those places I've been building in my head.
-          </p>
-          <div style="margin-top:1.5rem;">
-            <a href="#contact" class="btn btn-primary">Let's talk</a>
-          </div>
-        </div>
-
-        <div class="about-hobbies">
-          <div class="hobby-card" style="background:#faf5ff;">
-            <div class="hobby-icon">🗺️</div>
-            <div class="hobby-name">GIS & Maps</div>
-            <div class="hobby-desc">Turning spatial data into insight</div>
-          </div>
-          <div class="hobby-card" style="background:#f0fdf4;">
-            <div class="hobby-icon">🎮</div>
-            <div class="hobby-name">Game Dev</div>
-            <div class="hobby-desc">Designing interactive worlds</div>
-          </div>
-          <div class="hobby-card" style="background:#fff7ed;">
-            <div class="hobby-icon">✍️</div>
-            <div class="hobby-name">Fiction Writing</div>
-            <div class="hobby-desc">Stories with soul & detail</div>
-          </div>
-          <div class="hobby-card" style="background:#f0f9ff;">
-            <div class="hobby-icon">✈️</div>
-            <div class="hobby-name">Travel</div>
-            <div class="hobby-desc">Collecting places & perspectives</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SKILLS -->
-  <section id="skills" style="background:var(--offwhite);padding:4rem 3rem;">
-    <div class="section-inner reveal">
-      <p class="section-label">What I work with</p>
-      <h2 class="section-title" style="margin-bottom:2.5rem;">My toolkit</h2>
-      <div class="skills-grid">
-        <div class="skill-pill-group">
-          <h3>GIS & Spatial</h3>
-          <div class="pill-row">
-            <span class="skill-pill tag-mint">ArcGIS</span>
-            <span class="skill-pill tag-mint">QGIS</span>
-            <span class="skill-pill tag-mint">PostGIS</span>
-            <span class="skill-pill tag-mint">Mapbox</span>
-            <span class="skill-pill tag-mint">Leaflet</span>
-            <span class="skill-pill tag-mint">OpenLayers</span>
-          </div>
-        </div>
-        <div class="skill-pill-group">
-          <h3>Development</h3>
-          <div class="pill-row">
-            <span class="skill-pill tag-lav">Python</span>
-            <span class="skill-pill tag-lav">JavaScript</span>
-            <span class="skill-pill tag-lav">TypeScript</span>
-            <span class="skill-pill tag-lav">React</span>
-            <span class="skill-pill tag-lav">SQL</span>
-            <span class="skill-pill tag-lav">Node.js</span>
-          </div>
-        </div>
-        <div class="skill-pill-group">
-          <h3>Tools & Platforms</h3>
-          <div class="pill-row">
-            <span class="skill-pill tag-peach">AWS</span>
-            <span class="skill-pill tag-peach">Git</span>
-            <span class="skill-pill tag-peach">Docker</span>
-            <span class="skill-pill tag-peach">Figma</span>
-            <span class="skill-pill tag-peach">Unity</span>
-            <span class="skill-pill tag-peach">PostgreSQL</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- WORK PROJECTS -->
-  <section id="work-projects">
-    <div class="section-inner reveal">
-      <p class="section-label">Professional work</p>
-      <h2 class="section-title">What I build at work</h2>
-      <div class="projects-grid">
-
-        <div class="project-card card-mint">
-          <span class="project-emoji">🗺️</span>
-          <h3 class="project-title">Spatial Data Dashboard</h3>
-          <p class="project-desc">An interactive web dashboard for visualizing and querying large-scale geographic datasets. Supports real-time filtering, layer management, and custom map exports.</p>
-          <div class="project-tags">
-            <span class="project-tag">React</span>
-            <span class="project-tag">Mapbox GL</span>
-            <span class="project-tag">PostGIS</span>
-            <span class="project-tag">Python</span>
-          </div>
-        </div>
-
-        <div class="project-card card-lav">
-          <span class="project-emoji">📡</span>
-          <h3 class="project-title">Geodata Pipeline</h3>
-          <p class="project-desc">Automated ETL pipeline for ingesting, transforming, and serving spatial data from multiple sources. Reduced processing time by 70% through smart caching and parallel processing.</p>
-          <div class="project-tags">
-            <span class="project-tag">Python</span>
-            <span class="project-tag">AWS Lambda</span>
-            <span class="project-tag">PostGIS</span>
-            <span class="project-tag">Docker</span>
-          </div>
-        </div>
-
-        <div class="project-card card-sky">
-          <span class="project-emoji">📍</span>
-          <h3 class="project-title">Field Data Collector</h3>
-          <p class="project-desc">Mobile-first PWA for field teams to collect, annotate, and sync geographic data offline. Custom form builder with GPS snapping and photo attachment support.</p>
-          <div class="project-tags">
-            <span class="project-tag">TypeScript</span>
-            <span class="project-tag">Leaflet</span>
-            <span class="project-tag">PWA</span>
-            <span class="project-tag">IndexedDB</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- PERSONAL PROJECTS -->
-  <section id="personal-projects">
-    <div class="section-inner reveal">
-      <p class="section-label">Side quests</p>
-      <h2 class="section-title">Things I make for fun</h2>
-      <div class="projects-grid">
-
-        <div class="project-card card-peach">
-          <span class="project-emoji">🎮</span>
-          <h3 class="project-title">Cartomancer</h3>
-          <p class="project-desc">A puzzle game where maps are magic. Players decode spatial clues to uncover a hidden story woven across a procedurally generated world.</p>
-          <div class="project-tags">
-            <span class="project-tag">Unity</span>
-            <span class="project-tag">C#</span>
-            <span class="project-tag">Procgen</span>
-          </div>
-        </div>
-
-        <div class="project-card card-rose">
-          <span class="project-emoji">🛠️</span>
-          <h3 class="project-title">MapNotes</h3>
-          <p class="project-desc">A personal tool for pinning travel memories, stories, and photos to an interactive world map. Built for my own travel journaling habit.</p>
-          <div class="project-tags">
-            <span class="project-tag">React</span>
-            <span class="project-tag">Mapbox</span>
-            <span class="project-tag">Supabase</span>
-          </div>
-        </div>
-
-        <div class="project-card card-blush">
-          <span class="project-emoji">📖</span>
-          <h3 class="project-title">Story Generator CLI</h3>
-          <p class="project-desc">A command-line tool that helps beat writer's block with randomised prompts, character seeds, and setting ideas — with a GIS twist.</p>
-          <div class="project-tags">
-            <span class="project-tag">Python</span>
-            <span class="project-tag">CLI</span>
-            <span class="project-tag">Open source</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- TRAVEL STRIP -->
-  <div class="travel-strip">
-    <div class="travel-inner">
-      <p class="travel-title">✈️ Places I've been</p>
-      <div class="travel-pins">
-        <span class="travel-pin">🇯🇵 Japan</span>
-        <span class="travel-pin">🇮🇸 Iceland</span>
-        <span class="travel-pin">🇵🇹 Portugal</span>
-        <span class="travel-pin">🇲🇦 Morocco</span>
-        <span class="travel-pin">🇨🇷 Costa Rica</span>
-        <span class="travel-pin">🇹🇷 Turkey</span>
-        <span class="travel-pin">🇳🇴 Norway</span>
-        <span class="travel-pin">🇬🇷 Greece</span>
-        <span class="travel-pin">🇨🇿 Czech Republic</span>
-        <span class="travel-pin">🇳🇿 New Zealand</span>
-        <span class="travel-pin">🇦🇹 Austria</span>
-        <span class="travel-pin">🇭🇺 Hungary</span>
-        <span class="travel-pin">🇵🇱 Poland</span>
-        <span class="travel-pin">🇪🇸 Spain</span>
-        <span class="travel-pin">🇮🇹 Italy</span>
-        <span class="travel-pin">🇧🇪 Belgium</span>
-        <span class="travel-pin">🇩🇰 Denmark</span>
-        <span class="travel-pin">🇸🇰 Slovakia</span>
-      </div>
+    <div class="hero-cta">
+      <a href="#work-projects" class="btn-rose">See my work</a>
+      <a href="#contact" class="btn-outline">Say hello</a>
     </div>
   </div>
 
-  <!-- BLOG / WRITING -->
-  <section id="blog">
-    <div class="section-inner reveal">
-      <p class="section-label">Thoughts & stories</p>
-      <h2 class="section-title">Writing</h2>
-      <div class="blog-grid">
+  <div class="hero-right">
+    <div class="pixel-scene">
+      <div class="pixel-label">// anna_lotte.exe</div>
 
-        <div class="blog-card">
-          <div class="blog-card-bg" style="background: var(--lav);"></div>
-          <div class="blog-content">
-            <p class="blog-category">✍️ Fiction</p>
-            <h3 class="blog-title">The cartographer who mapped impossible places</h3>
-            <p class="blog-excerpt">A short story about a woman who discovers her maps are more accurate than reality — and what happens when they diverge.</p>
-            <div class="blog-meta">
-              <span>5 min read</span>&nbsp;·&nbsp;<span>Short story</span>
-            </div>
-          </div>
-        </div>
+      <div class="scene-container">
+        <img src="assets/desk-scene.png" class="scene-img" alt="Anna-Lotte at her desk"/>
 
-        <div class="blog-card">
-          <div class="blog-card-bg" style="background: var(--mint);"></div>
-          <div class="blog-content">
-            <p class="blog-category">🗺️ Dev & GIS</p>
-            <h3 class="blog-title">Why every developer should think spatially</h3>
-            <p class="blog-excerpt">Spatial thinking isn't just for GIS pros. Here's how geographic reasoning can make you a better software developer.</p>
-            <div class="blog-meta">
-              <span>7 min read</span>&nbsp;·&nbsp;<span>Tech essay</span>
-            </div>
-          </div>
-        </div>
+        <svg class="scene-overlay" viewBox="0 0 1402 1122" xmlns="http://www.w3.org/2000/svg">
 
-        <div class="blog-card">
-          <div class="blog-card-bg" style="background: var(--peach);"></div>
-          <div class="blog-content">
-            <p class="blog-category">✈️ Travel</p>
-            <h3 class="blog-title">Getting genuinely lost in Fez, Morocco</h3>
-            <p class="blog-excerpt">The medina's labyrinth has no GPS solution. And sometimes, being lost is exactly where you need to be.</p>
-            <div class="blog-meta">
-              <span>4 min read</span>&nbsp;·&nbsp;<span>Travel writing</span>
-            </div>
-          </div>
-        </div>
+          <!-- ── STEAM from coffee mug ── -->
+          <!-- mug is ~939, 650 — steam rises above it -->
+          <g class="steam" opacity="0.7">
+            <path d="M930 620 Q924 600 932 582 Q940 564 934 548" stroke="rgba(255,255,255,0.6)" stroke-width="3" fill="none" stroke-linecap="round">
+              <animate attributeName="opacity" values="0;0.7;0.5;0;0" dur="2.8s" repeatCount="indefinite" begin="0s"/>
+              <animateTransform attributeName="transform" type="translate" values="0,0;-3,-12;-5,-24" dur="2.8s" repeatCount="indefinite" begin="0s"/>
+            </path>
+            <path d="M950 625 Q956 604 948 585 Q940 567 948 550" stroke="rgba(255,255,255,0.5)" stroke-width="2.5" fill="none" stroke-linecap="round">
+              <animate attributeName="opacity" values="0;0;0.6;0.4;0" dur="2.8s" repeatCount="indefinite" begin="0.9s"/>
+              <animateTransform attributeName="transform" type="translate" values="0,0;4,-10;6,-22" dur="2.8s" repeatCount="indefinite" begin="0.9s"/>
+            </path>
+            <path d="M940 618 Q933 597 940 578 Q947 559 941 542" stroke="rgba(255,255,255,0.4)" stroke-width="2" fill="none" stroke-linecap="round">
+              <animate attributeName="opacity" values="0;0.5;0.3;0" dur="3.2s" repeatCount="indefinite" begin="1.6s"/>
+              <animateTransform attributeName="transform" type="translate" values="0,0;2,-14;0,-28" dur="3.2s" repeatCount="indefinite" begin="1.6s"/>
+            </path>
+          </g>
 
+          <!-- ── CANDLE FLICKER ── -->
+          <!-- candle at ~1044, 760 -->
+          <g class="candle-flame">
+            <ellipse cx="1044" cy="748" rx="7" ry="11" fill="#ffcc44" opacity="0.85">
+              <animate attributeName="rx" values="7;5;8;6;7" dur="0.3s" repeatCount="indefinite"/>
+              <animate attributeName="ry" values="11;13;10;12;11" dur="0.3s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="0.85;0.75;0.9;0.8;0.85" dur="0.4s" repeatCount="indefinite"/>
+              <animateTransform attributeName="transform" type="translate" values="0,0;1,-1;-1,0;0,1;0,0" dur="0.3s" repeatCount="indefinite"/>
+            </ellipse>
+            <ellipse cx="1044" cy="750" rx="4" ry="6" fill="#fff9a0" opacity="0.9">
+              <animate attributeName="rx" values="4;3;5;4;4" dur="0.3s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="0.9;0.8;1;0.85;0.9" dur="0.25s" repeatCount="indefinite"/>
+            </ellipse>
+            <!-- warm glow -->
+            <radialGradient id="candleGlow" cx="50%" cy="50%">
+              <stop offset="0%" stop-color="#ffcc44" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#ffcc44" stop-opacity="0"/>
+            </radialGradient>
+            <ellipse cx="1044" cy="790" rx="80" ry="50" fill="url(#candleGlow)">
+              <animate attributeName="rx" values="80;70;90;75;80" dur="0.8s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="0.8;0.6;1;0.7;0.8" dur="0.8s" repeatCount="indefinite"/>
+            </ellipse>
+          </g>
+
+          <!-- ── BLINKING CURSOR on laptop screen ── -->
+          <!-- screen roughly 490-730 x, 390-700 y — cursor at bottom of code -->
+          <rect class="cursor-blink" x="576" y="618" width="8" height="16" fill="#4ec94e" rx="1">
+            <animate attributeName="opacity" values="1;1;0;0;1" dur="1.1s" repeatCount="indefinite"/>
+          </rect>
+
+          <!-- ── SCREEN GLOW — subtle pulse on laptop ── -->
+          <radialGradient id="screenGlow" cx="50%" cy="50%">
+            <stop offset="0%" stop-color="#4a8ab4" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="#4a8ab4" stop-opacity="0"/>
+          </radialGradient>
+          <ellipse cx="605" cy="530" rx="140" ry="100" fill="url(#screenGlow)">
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
+          </ellipse>
+
+          <!-- ══════════════════════════════════════════
+               INTERACTIVE HOTSPOTS
+               Each is a transparent clickable zone
+               with a hover tooltip + redirect
+          ═══════════════════════════════════════════ -->
+
+          <!-- HOTSPOT 1: Laptop screen → See my work -->
+          <a href="#work-projects">
+            <rect class="hotspot" x="460" y="370" width="320" height="340" rx="8" fill="transparent"/>
+            <g class="hotspot-label" opacity="0">
+              <rect x="500" y="490" width="200" height="46" rx="6" fill="rgba(15,23,32,0.88)"/>
+              <rect x="500" y="490" width="200" height="3"  rx="2" fill="#4ec94e"/>
+              <text x="600" y="511" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" fill="#4ec94e" font-weight="700">→ see my work</text>
+              <text x="600" y="527" text-anchor="middle" font-family="Space Mono, monospace" font-size="9"  fill="rgba(255,255,255,0.5)">GIS · apps · tools</text>
+            </g>
+          </a>
+
+          <!-- HOTSPOT 2: World map → Travel / About -->
+          <a href="#about">
+            <rect class="hotspot" x="740" y="30" width="590" height="340" rx="8" fill="transparent"/>
+            <g class="hotspot-label" opacity="0">
+              <rect x="880" y="175" width="200" height="46" rx="6" fill="rgba(15,23,32,0.88)"/>
+              <rect x="880" y="175" width="200" height="3"  rx="2" fill="#d4869a"/>
+              <text x="980" y="196" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" fill="#d4869a" font-weight="700">→ about me</text>
+              <text x="980" y="212" text-anchor="middle" font-family="Space Mono, monospace" font-size="9"  fill="rgba(255,255,255,0.5)">18 countries · explorer</text>
+            </g>
+          </a>
+
+          <!-- HOTSPOT 3: Notebook → Writing -->
+          <a href="#blog">
+            <rect class="hotspot" x="540" y="740" width="440" height="280" rx="8" fill="transparent"/>
+            <g class="hotspot-label" opacity="0">
+              <rect x="660" y="840" width="200" height="46" rx="6" fill="rgba(15,23,32,0.88)"/>
+              <rect x="660" y="840" width="200" height="3"  rx="2" fill="#c9935a"/>
+              <text x="760" y="861" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" fill="#c9935a" font-weight="700">→ my writing</text>
+              <text x="760" y="877" text-anchor="middle" font-family="Space Mono, monospace" font-size="9"  fill="rgba(255,255,255,0.5)">fiction · essays · travel</text>
+            </g>
+          </a>
+
+          <!-- HOTSPOT 4: Bookshelf → Personal projects -->
+          <a href="#personal-projects">
+            <rect class="hotspot" x="220" y="0" width="480" height="185" rx="8" fill="transparent"/>
+            <g class="hotspot-label" opacity="0">
+              <rect x="300" y="80" width="200" height="46" rx="6" fill="rgba(15,23,32,0.88)"/>
+              <rect x="300" y="80" width="200" height="3"  rx="2" fill="#8a6aaa"/>
+              <text x="400" y="101" text-anchor="middle" font-family="Space Mono, monospace" font-size="11" fill="#c9b4e8" font-weight="700">→ my projects</text>
+              <text x="400" y="117" text-anchor="middle" font-family="Space Mono, monospace" font-size="9"  fill="rgba(255,255,255,0.5)">games · tools · ideas</text>
+            </g>
+          </a>
+
+        </svg>
+      </div>
+
+      <div class="pixel-status">
+        <span class="pixel-status-dot"></span>
+        building something · writing something · going somewhere
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="section-inner">
-      <div class="contact-grid reveal">
-        <div class="contact-left">
-          <p class="section-label">Say hello</p>
-          <h2 style="font-family:'Playfair Display',serif;font-size:2.5rem;margin-bottom:1rem;line-height:1.2;">
-            Let's make<br><em style="font-style:italic;color:var(--ink2);">something cool.</em>
-          </h2>
-          <p>
-            Whether you want to collaborate on a project, talk GIS nerd stuff, discuss a story idea, or just say hi — I'd love to hear from you.
-          </p>
-          <div class="social-links">
-            <a href="#" class="social-link">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-              GitHub
-            </a>
-            <a href="#" class="social-link">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-              LinkedIn
-            </a>
-            <a href="#" class="social-link">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              Email
-            </a>
-          </div>
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner reveal">
+    <div class="about-grid">
+      <div class="about-body">
+        <p class="section-kicker">About me</p>
+        <h2 class="section-heading">Developer, creator,<br><em>explorer.</em></h2>
+        <div class="section-rule"></div>
+        <p>[Your words — who you are professionally. What draws you to GIS and spatial development.]</p>
+        <p>[Your words — the other side of you. Writing, travel, building things for fun.]</p>
+        <div style="margin-top:2rem;">
+          <a href="#contact" class="btn-rose">Get in touch</a>
         </div>
-
-        <div class="contact-form">
-          <div class="form-group">
-            <label>Your name</label>
-            <input type="text" placeholder="Jane Smith" />
-          </div>
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" placeholder="hello@example.com" />
-          </div>
-          <div class="form-group">
-            <label>Message</label>
-            <textarea rows="5" placeholder="Tell me what's on your mind..."></textarea>
-          </div>
-          <button class="form-submit">Send message ✦</button>
+      </div>
+      <div class="about-tiles">
+        <div class="about-tile tile-rose">
+          <span class="tile-icon">🗺️</span>
+          <div class="tile-name">GIS &amp; Maps</div>
+          <div class="tile-desc">Turning spatial data into insight</div>
+        </div>
+        <div class="about-tile tile-amber">
+          <span class="tile-icon">🎮</span>
+          <div class="tile-name">Game Dev</div>
+          <div class="tile-desc">Designing interactive worlds</div>
+        </div>
+        <div class="about-tile tile-navy">
+          <span class="tile-icon">✍️</span>
+          <div class="tile-name">Fiction Writing</div>
+          <div class="tile-desc">Stories with depth &amp; detail</div>
+        </div>
+        <div class="about-tile tile-parch">
+          <span class="tile-icon">✈️</span>
+          <div class="tile-name">Travel</div>
+          <div class="tile-desc">Collecting places &amp; perspectives</div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>Crafted with 💜 by <span>Anna-Lotte</span> · Built on Netlify · <span>2026</span></p>
-  </footer>
+<!-- WORK PROJECTS -->
+<section id="work-projects">
+  <div class="section-inner reveal">
+    <p class="section-kicker">Professional work</p>
+    <h2 class="section-heading">Selected <em>projects</em></h2>
+    <div class="section-rule"></div>
+    <div class="book-shelf">
 
-  <script>
-    // Scroll reveal
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.12 });
-    reveals.forEach(r => observer.observe(r));
-  </script>
+      <div class="book-card">
+        <div class="book-spine book-spine-rose"></div>
+        <div class="book-cover book-cover-rose">
+          <p class="book-genre">GIS / Web App</p>
+          <h3 class="book-title">Spatial Data Dashboard</h3>
+          <p class="book-desc">[Your description — what it does, what problem it solves, what you're proud of.]</p>
+          <div class="book-tags">
+            <span class="book-tag">React</span>
+            <span class="book-tag">Mapbox GL</span>
+            <span class="book-tag">PostGIS</span>
+            <span class="book-tag">Python</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-spine book-spine-navy"></div>
+        <div class="book-cover book-cover-navy">
+          <p class="book-genre">Data Engineering</p>
+          <h3 class="book-title">Geodata Pipeline</h3>
+          <p class="book-desc">[Your description.]</p>
+          <div class="book-tags">
+            <span class="book-tag">Python</span>
+            <span class="book-tag">AWS Lambda</span>
+            <span class="book-tag">PostGIS</span>
+            <span class="book-tag">Docker</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-spine book-spine-teal"></div>
+        <div class="book-cover book-cover-teal">
+          <p class="book-genre">Mobile / PWA</p>
+          <h3 class="book-title">Field Data Collector</h3>
+          <p class="book-desc">[Your description.]</p>
+          <div class="book-tags">
+            <span class="book-tag">TypeScript</span>
+            <span class="book-tag">Leaflet</span>
+            <span class="book-tag">PWA</span>
+            <span class="book-tag">IndexedDB</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PERSONAL PROJECTS -->
+<section id="personal-projects">
+  <div class="section-inner reveal">
+    <p class="section-kicker">Personal work</p>
+    <h2 class="section-heading">Things I make <em>for fun</em></h2>
+    <div class="section-rule"></div>
+    <div class="book-shelf">
+
+      <a href="a-tall-order/index.html" class="book-card book-card-link">
+        <div class="book-spine book-spine-rose"></div>
+        <div class="book-cover book-cover-rose" style="padding:0; overflow:hidden; position:relative;">
+          <!-- Animated game preview -->
+          <canvas id="previewCanvas" style="width:100%;height:160px;display:block;"></canvas>
+          <div style="padding:1.4rem 1.6rem 1.6rem;">
+            <p class="book-genre">☕ Playable Game</p>
+            <h3 class="book-title">A Tall Order</h3>
+            <p class="book-desc">Work the bookshop café by day, write your novel by night. Seat guests, serve orders, collect tips — and invest your earnings into Maya's publishing dream.</p>
+            <div class="book-tags">
+              <span class="book-tag">HTML5 Canvas</span>
+              <span class="book-tag">JavaScript</span>
+              <span class="book-tag">Game Dev</span>
+            </div>
+            <div style="margin-top:1rem;">
+              <span style="font-size:0.76rem;font-weight:700;color:var(--rose);letter-spacing:0.08em;text-transform:uppercase;">Play now →</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <div class="book-card">
+        <div class="book-spine book-spine-sage"></div>
+        <div class="book-cover book-cover-sage">
+          <p class="book-genre">Tool</p>
+          <h3 class="book-title">MapNotes</h3>
+          <p class="book-desc">[Your description.]</p>
+          <div class="book-tags">
+            <span class="book-tag">React</span>
+            <span class="book-tag">Mapbox</span>
+            <span class="book-tag">Supabase</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-card">
+        <div class="book-spine book-spine-plum"></div>
+        <div class="book-cover book-cover-plum">
+          <p class="book-genre">Open source</p>
+          <h3 class="book-title">Story Generator CLI</h3>
+          <p class="book-desc">[Your description.]</p>
+          <div class="book-tags">
+            <span class="book-tag">Python</span>
+            <span class="book-tag">CLI</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TRAVEL -->
+<div class="travel-section">
+  <div class="travel-inner">
+    <div class="travel-top">
+      <h3 class="travel-heading">Places I've been</h3>
+      <span class="travel-count">18 countries</span>
+    </div>
+    <div class="travel-grid">
+      <span class="travel-chip">🇯🇵 Japan</span>
+      <span class="travel-chip">🇮🇸 Iceland</span>
+      <span class="travel-chip">🇵🇹 Portugal</span>
+      <span class="travel-chip">🇲🇦 Morocco</span>
+      <span class="travel-chip">🇨🇷 Costa Rica</span>
+      <span class="travel-chip">🇹🇷 Turkey</span>
+      <span class="travel-chip">🇳🇴 Norway</span>
+      <span class="travel-chip">🇬🇷 Greece</span>
+      <span class="travel-chip">🇨🇿 Czech Republic</span>
+      <span class="travel-chip">🇳🇿 New Zealand</span>
+      <span class="travel-chip">🇦🇹 Austria</span>
+      <span class="travel-chip">🇭🇺 Hungary</span>
+      <span class="travel-chip">🇵🇱 Poland</span>
+      <span class="travel-chip">🇪🇸 Spain</span>
+      <span class="travel-chip">🇮🇹 Italy</span>
+      <span class="travel-chip">🇧🇪 Belgium</span>
+      <span class="travel-chip">🇩🇰 Denmark</span>
+      <span class="travel-chip">🇸🇰 Slovakia</span>
+    </div>
+  </div>
+</div>
+
+<!-- WRITING -->
+<section id="blog">
+  <div class="section-inner reveal">
+    <p class="section-kicker">Writing</p>
+    <h2 class="section-heading">Thoughts &amp; <em>stories</em></h2>
+    <div class="section-rule"></div>
+    <div class="writing-row">
+      <div class="writing-card">
+        <p class="writing-cat">Fiction</p>
+        <h3 class="writing-title">[Your title]</h3>
+        <p class="writing-excerpt">[A sentence or two about this piece.]</p>
+        <p class="writing-meta">Short story · 5 min read</p>
+      </div>
+      <div class="writing-card">
+        <p class="writing-cat">Dev &amp; GIS</p>
+        <h3 class="writing-title">[Your title]</h3>
+        <p class="writing-excerpt">[Your excerpt.]</p>
+        <p class="writing-meta">Essay · 7 min read</p>
+      </div>
+      <div class="writing-card">
+        <p class="writing-cat">Travel</p>
+        <h3 class="writing-title">[Your title]</h3>
+        <p class="writing-excerpt">[Your excerpt.]</p>
+        <p class="writing-meta">Travel writing · 4 min read</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-grid reveal">
+      <div>
+        <p class="section-kicker" style="color:var(--rose)">Get in touch</p>
+        <h2 class="contact-heading">Let's make<br><em>something.</em></h2>
+        <p class="contact-desc">[Your words — what you'd love to be contacted about.]</p>
+        <div class="socials">
+          <a href="#" class="social-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+            GitHub
+          </a>
+          <a href="#" class="social-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+          </a>
+          <a href="#" class="social-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Email
+          </a>
+        </div>
+      </div>
+      <div>
+        <div class="form-field"><label>Name</label><input type="text" placeholder="Your name"/></div>
+        <div class="form-field"><label>Email</label><input type="email" placeholder="your@email.com"/></div>
+        <div class="form-field"><label>Message</label><textarea rows="5" placeholder="What's on your mind?"></textarea></div>
+        <button class="btn-send">Send message</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-sig">anna-lotte<span style="color:var(--rose)">_</span></span>
+  <span class="footer-copy">Built on AWS &nbsp;·&nbsp; 2025</span>
+</footer>
+
+<script>
+// Mini animated preview of A Tall Order
+(function() {
+  function initPreview() {
+    const c = document.getElementById('previewCanvas');
+    if (!c) return;
+    const ctx = c.getContext('2d');
+    c.width = c.offsetWidth * window.devicePixelRatio || 300;
+    c.height = 160 * window.devicePixelRatio || 160;
+    ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+    const W = c.offsetWidth || 300, H = 160;
+
+    let t = 0;
+    const guests = [
+      { x: W*0.25, y: H*0.55, emoji:'👩‍💼', col:'#d4869a', state:0, timer:0 },
+      { x: W*0.55, y: H*0.38, emoji:'👨‍🎨', col:'#c9935a', state:1, timer:60 },
+      { x: W*0.72, y: H*0.62, emoji:'👵',   col:'#6a9e6e', state:2, timer:30 },
+    ];
+
+    function draw() {
+      ctx.clearRect(0,0,W,H);
+      // Floor
+      ctx.fillStyle = '#e8d8c0';
+      ctx.fillRect(0,0,W,H);
+      // Plank lines
+      ctx.strokeStyle='rgba(160,130,90,0.15)';ctx.lineWidth=1;
+      for(let y=0;y<H;y+=H/6){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W*0.78,y);ctx.stroke();}
+      // Wall
+      ctx.fillStyle='#2a3f5e'; ctx.fillRect(0,0,W*0.78,H*0.22);
+      // Books
+      const cols=['#d4869a','#c9935a','#6a9e6e','#5a8ab4','#a06aaa'];
+      const bw=(W*0.7)/14;
+      for(let i=0;i<14;i++){
+        ctx.fillStyle=cols[i%cols.length];
+        ctx.fillRect(W*0.04+i*bw+1,H*0.04,bw-2,H*0.13+Math.sin(i)*H*0.02);
+      }
+      ctx.fillStyle='#5a4030';ctx.fillRect(W*0.04,H*0.17,W*0.7,3);
+      // Counter
+      ctx.fillStyle='#1e2d45';ctx.fillRect(W*0.78,0,W*0.22,H);
+      ctx.fillStyle='#c4a87a';ctx.fillRect(W*0.79,H*0.22,W*0.2,H*0.09);
+      // Tables
+      [[W*0.3,H*0.45],[W*0.55,H*0.45],[W*0.42,H*0.72]].forEach(([tx,ty])=>{
+        ctx.fillStyle='rgba(0,0,0,0.08)';ctx.beginPath();ctx.ellipse(tx,ty+6,28,9,0,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle='#c4a87a';ctx.beginPath();ctx.ellipse(tx,ty,26,16,0,0,Math.PI*2);ctx.fill();
+        ctx.strokeStyle='#a08050';ctx.lineWidth=1.5;ctx.stroke();
+      });
+      // Guests
+      guests.forEach(g=>{
+        g.timer++;
+        const bob = Math.sin((g.timer+t)*0.06)*3;
+        ctx.fillStyle=g.col;
+        ctx.beginPath();ctx.arc(g.x,g.y+bob,14,0,Math.PI*2);ctx.fill();
+        ctx.font='16px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+        ctx.fillText(g.emoji,g.x,g.y+bob);
+        ctx.textBaseline='alphabetic';
+        // tiny bubble
+        if(g.state===0){
+          ctx.fillStyle='rgba(255,255,255,0.9)';
+          ctx.beginPath();ctx.roundRect(g.x+8,g.y+bob-26,18,16,4);ctx.fill();
+          ctx.font='10px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+          ctx.fillText('?',g.x+17,g.y+bob-18);ctx.textBaseline='alphabetic';
+        } else if(g.state===1){
+          ctx.fillStyle='rgba(255,255,255,0.9)';
+          ctx.beginPath();ctx.roundRect(g.x+8,g.y+bob-26,18,16,4);ctx.fill();
+          ctx.font='10px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+          ctx.fillText('☕',g.x+17,g.y+bob-18);ctx.textBaseline='alphabetic';
+        } else {
+          ctx.fillStyle='rgba(255,255,255,0.9)';
+          ctx.beginPath();ctx.roundRect(g.x+8,g.y+bob-26,18,16,4);ctx.fill();
+          ctx.font='10px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+          ctx.fillText('😊',g.x+17,g.y+bob-18);ctx.textBaseline='alphabetic';
+        }
+      });
+      // Player
+      const py = H*0.75 + Math.sin(t*0.04)*4;
+      ctx.fillStyle='#1e2d45';ctx.beginPath();ctx.arc(W*0.15,py,13,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='#d4869a';ctx.beginPath();ctx.arc(W*0.15,py,9,Math.PI*0.1,Math.PI*0.9);ctx.fill();
+      ctx.font='16px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText('👩',W*0.15,py);ctx.textBaseline='alphabetic';
+      // Title overlay
+      ctx.fillStyle='rgba(20,30,46,0.45)';ctx.fillRect(0,0,W,H);
+      ctx.fillStyle='rgba(240,205,213,0.92)';
+      ctx.font='bold 13px Nunito,sans-serif';ctx.textAlign='center';
+      ctx.fillText('▶ Click to play', W/2, H/2);
+      t++;
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded', initPreview);
+  } else {
+    setTimeout(initPreview, 100);
+  }
+})();
+</script>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  reveals.forEach(r => io.observe(r));
+</script>
 </body>
 </html>
