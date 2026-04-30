@@ -3,6 +3,27 @@
 //  All fixed game data — tweak values here without touching logic
 // ============================================================
 
+// Table positions expressed as fractions of canvas (0–1)
+// so they scale at any window size.
+// Mapped from the 1536x1024 background image.
+const TABLE_DEFINITIONS = [
+  { id: 0, xPct: 0.295, yPct: 0.610, label: 'Table 1', seats: 4 },
+  { id: 1, xPct: 0.445, yPct: 0.525, label: 'Table 2', seats: 4 },
+  { id: 2, xPct: 0.685, yPct: 0.470, label: 'Booth 1', seats: 4 },
+  { id: 3, xPct: 0.715, yPct: 0.655, label: 'Booth 2', seats: 4 },
+];
+
+// 5th table unlocked by extraTable upgrade
+const EXTRA_TABLE = { id: 4, xPct: 0.790, yPct: 0.440, label: 'Armchair', seats: 1 };
+
+// Anna's idle position — behind the counter
+const ANNA_IDLE_X_PCT = 0.360;
+const ANNA_IDLE_Y_PCT = 0.460;
+
+// Where arriving guests walk to — the host stand
+const QUEUE_X_PCT = 0.105;
+const QUEUE_Y_PCT = 0.740;
+
 const GUEST_TYPES = [
   { emoji: '👩‍💼', color: '#d4869a', tipMult: 1.0, patience: 22 },
   { emoji: '👨‍🎨', color: '#c9935a', tipMult: 1.2, patience: 18 },
@@ -14,11 +35,11 @@ const GUEST_TYPES = [
 
 const ORDERS = [
   '☕ Espresso',
-  '🍵 Green Tea',
-  '🧋 Latte',
-  '🍰 Cake Slice',
-  '📖 Book + Coffee',
-  '🫖 Earl Grey',
+  '🍵 Chai Latte',
+  '🧋 Iced Coffee',
+  '🍰 Blueberry Pancake',
+  '📖 Book + Cold Brew',
+  '🫖 Honey Cinnamon Latte',
 ];
 
 const NOVEL_STAGES = [
@@ -36,22 +57,17 @@ const NOVEL_STAGES = [
 ];
 
 const UPGRADES_ORDER = [
-  'betterCoffee',
-  'fasterLegs',
-  'extraTable',
-  'writingDesk',
-  'loyaltyCards',
-  'bookDisplay',
+  'betterCoffee', 'fasterLegs', 'extraTable',
+  'writingDesk', 'loyaltyCards', 'bookDisplay',
 ];
 
 const UPGRADES_DATA = {
-  betterCoffee: { name: 'Premium Beans',  icon: '☕', desc: 'Guests tip more',        cost: 40  },
-  fasterLegs:   { name: 'Comfy Shoes',    icon: '👟', desc: 'Move faster',            cost: 60  },
-  extraTable:   { name: 'Extra Table',    icon: '🪑', desc: 'Seat one more group',    cost: 80  },
-  writingDesk:  { name: 'Writing Desk',   icon: '🖊', desc: 'Novel progress ×2',      cost: 100 },
-  loyaltyCards: { name: 'Loyalty Cards',  icon: '🃏', desc: 'Guests stay 20% longer', cost: 70  },
-  bookDisplay:  { name: 'Book Display',   icon: '📚', desc: '+$2 per order',          cost: 90  },
+  betterCoffee: { name: 'Premium Beans',    icon: '☕', desc: 'Guests tip more',           cost: 40  },
+  fasterLegs:   { name: 'Comfy Shoes',      icon: '👟', desc: 'Move faster',               cost: 60  },
+  extraTable:   { name: 'Extra Table',      icon: '🪑', desc: 'Unlock the armchair nook',  cost: 80  },
+  writingDesk:  { name: 'Writing Desk',     icon: '🖊', desc: 'Novel progress x2',         cost: 100 },
+  loyaltyCards: { name: 'Loyalty Cards',    icon: '🃏', desc: 'Guests stay 20% longer',    cost: 70  },
+  bookDisplay:  { name: 'Book Display',     icon: '📚', desc: '+$2 per order',             cost: 90  },
 };
 
-// Stable book heights so they don't flicker every frame
 const BOOK_HEIGHTS = Array.from({ length: 22 }, () => Math.random());

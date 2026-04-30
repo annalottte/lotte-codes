@@ -1,11 +1,8 @@
 // ============================================================
 //  state.js
-//  Game state — one object (G) holds everything that changes
-//  during play. Reset it to restart the game cleanly.
+//  Game state — G is the single source of truth.
 // ============================================================
 
-// G is the single source of truth for the entire game.
-// Every other module reads from and writes to G.
 let G = {};
 
 function initState() {
@@ -14,8 +11,8 @@ function initState() {
     day: 1,
     cash: 0,
     totalEarned: 0,
-    novelProgress: 0,    // 0–100
-    timeLeft: 120,       // seconds this shift
+    novelProgress: 0,
+    timeLeft: 120,
     servedToday: 0,
     tipsToday: 0,
     earnedToday: 0,
@@ -25,19 +22,20 @@ function initState() {
     spawnTimer: 0,
     spawnInterval: 4.5,
 
+    // selectedGuest: the guest the player has clicked and is holding
+    // They then click a table to seat that guest
+    selectedGuest: null,
+
     tables: [],
     waitingQueue: [],
 
-    // Upgrades: bought flag lives here so it saves with the game state
     upgrades: Object.fromEntries(
       Object.entries(UPGRADES_DATA).map(([key, data]) => [key, { ...data, bought: false }])
     ),
 
     player: {
-      x: 0,
-      y: 0,
-      targetX: 0,
-      targetY: 0,
+      x: 0, y: 0,
+      targetX: 0, targetY: 0,
       moving: false,
       speed: 120,
       carrying: false,
@@ -49,17 +47,15 @@ function initState() {
 function setupTables() {
   const w = canvas.width;
   const h = canvas.height;
-  const count = G.upgrades.extraTable.bought ? 4 : 3;
+  const defs = [...TABLE_DEFINITIONS];
+  if (G.upgrades.extraTable.bought) defs.push(EXTRA_TABLE);
 
-  G.tables = [];
-  for (let i = 0; i < count; i++) {
-    G.tables.push({
-      id: i,
-      x: w * (0.3 + i * (0.55 / count)),
-      y: h * (i % 2 === 0 ? 0.33 : 0.62),
-      guest: null,
-    });
-  }
+  G.tables = defs.map(def => ({
+    ...def,
+    x: w * def.xPct,
+    y: h * def.yPct,
+    guest: null,
+  }));
 }
 
 function novelStage() {

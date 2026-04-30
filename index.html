@@ -125,6 +125,12 @@
     .hero-tag::before {
       content: '//'; color: var(--amber); font-size: 0.8rem;
     }
+    .hero-tag::before, .hero-tag::after {
+      content: ''; flex: 1; height: 1px;
+      background: rgba(212,134,154,0.35);
+    }
+    .hero-tag::before { width: 24px; flex: none; }
+    .hero-tag::after  { width: 24px; flex: none; }
 
     .hero-name {
       font-family: 'Playfair Display', serif;
@@ -937,6 +943,7 @@
         <span class="pixel-status-dot"></span>
         building something · writing something · going somewhere
       </div>
+
     </div>
   </div>
 </section>
